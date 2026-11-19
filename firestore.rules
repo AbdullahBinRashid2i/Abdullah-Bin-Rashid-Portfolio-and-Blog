@@ -1,0 +1,246 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default-deny global safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn()
+        && request.auth.token.email == 'abdullahbinrashid0@gmail.com'
+        && request.auth.token.email_verified == true;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidBoundedString(val, minLen, maxLen) {
+      return val is string && val.size() >= minLen && val.size() <= maxLen;
+    }
+
+    function isValidStringList(val, maxItems) {
+      return val is list
+        && val.size() <= maxItems
+        && (val.size() == 0 || (val[0] is string && val[0].size() >= 1 && val[0].size() <= 60));
+    }
+
+    function isValidSocialLinks(links) {
+      return links is map
+        && links.keys().hasAll(['github', 'linkedin', 'email'])
+        && links.keys().hasOnly(['github', 'linkedin', 'email'])
+        && isValidBoundedString(links.github, 0, 300)
+        && isValidBoundedString(links.linkedin, 0, 300)
+        && isValidBoundedString(links.email, 0, 160);
+    }
+
+    function isValidProfile(data) {
+      return data.keys().hasAll([
+          'fullName',
+          'tagline',
+          'bio',
+          'location',
+          'heroImageUrl',
+          'skills',
+          'socialLinks',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'fullName',
+          'tagline',
+          'bio',
+          'location',
+          'heroImageUrl',
+          'skills',
+          'socialLinks',
+          'updatedAt'
+        ])
+        && isValidBoundedString(data.fullName, 1, 120)
+        && isValidBoundedString(data.tagline, 1, 160)
+        && isValidBoundedString(data.bio, 1, 3000)
+        && isValidBoundedString(data.location, 1, 120)
+        && isValidBoundedString(data.heroImageUrl, 0, 1000)
+        && isValidStringList(data.skills, 40)
+        && isValidSocialLinks(data.socialLinks)
+        && data.updatedAt == request.time;
+    }
+
+    function isValidProject(data) {
+      return data.keys().hasAll([
+          'title',
+          'description',
+          'category',
+          'techStack',
+          'coverImageUrl',
+          'liveUrl',
+          'githubUrl',
+          'order',
+          'visibility',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'title',
+          'description',
+          'category',
+          'techStack',
+          'coverImageUrl',
+          'liveUrl',
+          'githubUrl',
+          'order',
+          'visibility',
+          'createdAt',
+          'updatedAt'
+        ])
+        && isValidBoundedString(data.title, 1, 140)
+        && isValidBoundedString(data.description, 1, 2000)
+        && data.category in ['Full-Stack', 'Graphic Design', 'Hybrid']
+        && isValidStringList(data.techStack, 15)
+        && isValidBoundedString(data.coverImageUrl, 0, 1000)
+        && isValidBoundedString(data.liveUrl, 0, 1000)
+        && isValidBoundedString(data.githubUrl, 0, 1000)
+        && data.order is number
+        && data.order >= 0
+        && data.order <= 9999
+        && data.visibility == 'public'
+        && data.createdAt is timestamp
+        && data.updatedAt == request.time;
+    }
+
+    function isValidPost(data) {
+      return data.keys().hasAll([
+          'title',
+          'slug',
+          'excerpt',
+          'content',
+          'coverImageUrl',
+          'youtubeUrl',
+          'tags',
+          'status',
+          'readingTimeMinutes',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'title',
+          'slug',
+          'excerpt',
+          'content',
+          'coverImageUrl',
+          'youtubeUrl',
+          'tags',
+          'status',
+          'readingTimeMinutes',
+          'createdAt',
+          'updatedAt'
+        ])
+        && isValidBoundedString(data.title, 1, 180)
+        && isValidBoundedString(data.slug, 1, 160)
+        && data.slug.matches('^[a-z0-9]+(-[a-z0-9]+)*$')
+        && isValidBoundedString(data.excerpt, 1, 500)
+        && isValidBoundedString(data.content, 1, 50000)
+        && isValidBoundedString(data.coverImageUrl, 0, 1000)
+        && isValidBoundedString(data.youtubeUrl, 0, 500)
+        && isValidStringList(data.tags, 10)
+        && data.status in ['draft', 'published']
+        && data.readingTimeMinutes is number
+        && data.readingTimeMinutes >= 1
+        && data.readingTimeMinutes <= 120
+        && data.createdAt is timestamp
+        && data.updatedAt == request.time;
+    }
+
+    // Collection 1: siteContent (singleton profile document)
+    match /siteContent/{docId} {
+      allow get: if docId == 'profile';
+      allow list: if false;
+      allow create: if isAdmin()
+        && docId == 'profile'
+        && isValidId(docId)
+        && isValidProfile(incoming());
+      allow update: if isAdmin()
+        && docId == 'profile'
+        && isValidId(docId)
+        && isValidProfile(incoming())
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'fullName',
+          'tagline',
+          'bio',
+          'location',
+          'heroImageUrl',
+          'skills',
+          'socialLinks',
+          'updatedAt'
+        ]);
+      allow delete: if false;
+    }
+
+    // Collection 2: projects
+    match /projects/{projectId} {
+      allow get: if isValidId(projectId) && (resource == null || existing().visibility == 'public' || isAdmin());
+      allow list: if existing().visibility == 'public' || isAdmin();
+      allow create: if isAdmin()
+        && isValidId(projectId)
+        && isValidProject(incoming())
+        && incoming().createdAt == request.time;
+      allow update: if isAdmin()
+        && isValidId(projectId)
+        && isValidProject(incoming())
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'title',
+          'description',
+          'category',
+          'techStack',
+          'coverImageUrl',
+          'liveUrl',
+          'githubUrl',
+          'order',
+          'visibility',
+          'updatedAt'
+        ]);
+      allow delete: if isAdmin() && isValidId(projectId);
+    }
+
+    // Collection 3: posts (published public, drafts strictly admin-only)
+    match /posts/{postId} {
+      allow get: if isValidId(postId) && (resource == null || existing().status == 'published' || isAdmin());
+      allow list: if existing().status == 'published' || isAdmin();
+      allow create: if isAdmin()
+        && isValidId(postId)
+        && isValidPost(incoming())
+        && incoming().createdAt == request.time;
+      allow update: if isAdmin()
+        && isValidId(postId)
+        && isValidPost(incoming())
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'title',
+          'slug',
+          'excerpt',
+          'content',
+          'coverImageUrl',
+          'youtubeUrl',
+          'tags',
+          'status',
+          'readingTimeMinutes',
+          'updatedAt'
+        ]);
+      allow delete: if isAdmin() && isValidId(postId);
+    }
+  }
+}

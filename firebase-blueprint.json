@@ -1,0 +1,236 @@
+{
+  "entities": {
+    "SiteProfile": {
+      "title": "SiteProfile",
+      "description": "Primary portfolio owner profile, bio, skills, and social links displayed on the public site.",
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "description": "Full display name of the portfolio owner."
+        },
+        "tagline": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160,
+          "description": "Primary role and tagline shown in the hero."
+        },
+        "bio": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 3000,
+          "description": "About me biography prose."
+        },
+        "location": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "description": "City and academic institution label."
+        },
+        "heroImageUrl": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "URL or local asset path for the hero studio showcase image."
+        },
+        "skills": {
+          "type": "array",
+          "description": "Bounded list of up to 40 technical and graphic design skills."
+        },
+        "socialLinks": {
+          "type": "object",
+          "description": "Public contact links object containing github, linkedin, and email."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of the last profile update."
+        }
+      },
+      "required": [
+        "fullName",
+        "tagline",
+        "bio",
+        "location",
+        "heroImageUrl",
+        "skills",
+        "socialLinks",
+        "updatedAt"
+      ]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Featured portfolio project blending full-stack engineering and graphic design.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 140,
+          "description": "Project title."
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "description": "Concise overview of the project and outcomes."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["Full-Stack", "Graphic Design", "Hybrid"],
+          "description": "Discipline category for visual presentation."
+        },
+        "techStack": {
+          "type": "array",
+          "description": "Bounded list of up to 15 technologies or design tools."
+        },
+        "coverImageUrl": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Cover artwork URL or generated asset path."
+        },
+        "liveUrl": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Optional live demo or showcase URL."
+        },
+        "githubUrl": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Optional source code repository URL."
+        },
+        "order": {
+          "type": "number",
+          "description": "Display sort order index (0..9999)."
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["public"],
+          "description": "Public visibility marker for secure list rules."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Immutable creation server timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last modification server timestamp."
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "category",
+        "techStack",
+        "coverImageUrl",
+        "liveUrl",
+        "githubUrl",
+        "order",
+        "visibility",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "BlogPost": {
+      "title": "BlogPost",
+      "description": "Custom Markdown blog article with optional YouTube video embed and draft/published workflow.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 180,
+          "description": "Article headline."
+        },
+        "slug": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160,
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "URL-friendly article slug."
+        },
+        "excerpt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "description": "Short summary displayed on the blog feed."
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50000,
+          "description": "Full Markdown article body supporting code blocks and automatic YouTube embeds."
+        },
+        "coverImageUrl": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Cover artwork URL or generated asset path."
+        },
+        "youtubeUrl": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Optional featured YouTube URL rendered as a 16:9 player."
+        },
+        "tags": {
+          "type": "array",
+          "description": "Bounded list of up to 10 topic tags."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "published"],
+          "description": "Publication state controlling public visibility."
+        },
+        "readingTimeMinutes": {
+          "type": "number",
+          "description": "Auto-calculated reading time in minutes (1..120)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Immutable creation server timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last modification server timestamp."
+        }
+      },
+      "required": [
+        "title",
+        "slug",
+        "excerpt",
+        "content",
+        "coverImageUrl",
+        "youtubeUrl",
+        "tags",
+        "status",
+        "readingTimeMinutes",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/siteContent/profile": {
+      "schema": {
+        "$ref": "#/entities/SiteProfile"
+      },
+      "description": "Singleton profile document storing Abdullah Bin Rashid's bio, tagline, skills, and social links."
+    },
+    "/projects/{projectId}": {
+      "schema": {
+        "$ref": "#/entities/Project"
+      },
+      "description": "Collection of featured portfolio projects ordered by display index."
+    },
+    "/posts/{postId}": {
+      "schema": {
+        "$ref": "#/entities/BlogPost"
+      },
+      "description": "Collection of blog posts where published articles are publicly readable and drafts are admin-only."
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Abdullah Bin Rashid — Portfolio & Blog",
+  "description": "Personal portfolio, custom Markdown blog with YouTube embeds, and Firebase-powered Admin CMS for Abdullah Bin Rashid.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
