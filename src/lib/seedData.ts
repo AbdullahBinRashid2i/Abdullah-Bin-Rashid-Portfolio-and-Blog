@@ -3,10 +3,10 @@ import { calculateReadingTime } from './validation';
 
 export const DEFAULT_PROFILE: SiteProfile = {
   fullName: 'Abdullah Bin Rashid',
-  tagline: 'Full-Stack Developer & CS Student',
-  location: 'GU Tech · Karachi, Pakistan',
-  bio: 'I am an undergraduate Computer Science student in my first semester at GU Tech, living in Karachi. Alongside full-stack web engineering, I practice graphic design—combining clean visual hierarchy, Swiss grid systems, and reliable modern software architecture to craft web products that feel both engineered and intentionally designed.',
-  heroImageUrl: '/src/assets/images/hero_studio_desk_1795064684699.jpg',
+  tagline: 'builds things at the bench — software, systems, and scenes.',
+  location: 'Based in Karachi, Pakistan',
+  bio: "I'm a Computer Science student who moves between AI-assisted backend systems, full-stack web work, Unity game design, and 3D modeling in Blender — usually with a PC case open on the desk beside me.",
+  heroImageUrl: '/src/assets/images/abr_headshot.jpg',
   skills: [
     'React',
     'TypeScript',

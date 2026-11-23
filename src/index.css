@@ -120,8 +120,16 @@
   }
 
   h1, h2, h3, h4, .font-display {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    font-family: 'Newsreader', 'Instrument Serif', Georgia, serif;
     text-wrap: balance;
+  }
+
+  .font-serif-display {
+    font-family: 'Newsreader', 'Instrument Serif', Georgia, serif;
+  }
+
+  .font-sans-body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   }
 
   code, pre, .font-mono {

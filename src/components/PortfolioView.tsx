@@ -42,45 +42,41 @@ export function PortfolioView({ onOpenBlog: _onOpenBlog, onOpenPost: _onOpenPost
   return (
     <main className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
       {/* Hero Section */}
-      <section id="hero" className="pt-14 pb-12 lg:pt-20 lg:pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          <div className="lg:col-span-7 flex flex-col justify-center py-2">
+      <section id="hero" className="pt-14 pb-14 lg:pt-20 lg:pb-18">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Left Column: Editorial Headline & Narrative */}
+          <div className="lg:col-span-7 flex flex-col justify-center">
             <div>
-              <p className="text-sm font-medium text-[var(--muted)] mb-3">
-                {profile.location}
+              <p className="text-xs sm:text-sm font-medium text-[var(--accent)] tracking-wider uppercase mb-4">
+                {profile.location || 'Based in Karachi, Pakistan'}
               </p>
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-tight leading-[1.06] text-[var(--text)] mb-4">
-                {profile.fullName}
+              
+              <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight leading-[1.18] text-[var(--text)] mb-6">
+                <span>{profile.fullName}</span>{' '}
+                <span className="italic font-normal opacity-90 text-[var(--text)]">
+                  {profile.tagline?.startsWith('builds')
+                    ? profile.tagline
+                    : `builds things at the bench — software, systems, and scenes.`}
+                </span>
               </h1>
-              <p className="font-display text-xl sm:text-2xl font-medium text-[var(--accent)] mb-4">
-                {profile.tagline}
-              </p>
-              <p className="text-base leading-relaxed text-[var(--muted)] max-w-[60ch]">
-                Undergraduate Computer Science student &amp; developer crafting refined digital products, modern web architectures, and deliberate design systems.
+
+              <p className="text-base sm:text-lg leading-relaxed text-[var(--muted)] max-w-[62ch]">
+                {profile.bio}
               </p>
             </div>
 
-            {/* Direct GitHub & LinkedIn Links - prominent square-like cards */}
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            {/* GitHub and LinkedIn Links (clean, stylish, without "Say Hello") */}
+            <div className="mt-8 flex flex-wrap items-center gap-3">
               {profile.socialLinks.github && (
                 <a
                   href={profile.socialLinks.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-col justify-between w-32 h-28 p-4 rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--accent)] hover:bg-[var(--surface-elevated)] transition-all shadow-sm"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all shadow-sm"
                 >
-                  <div className="flex items-center justify-between w-full">
-                    <Github className="w-6 h-6 text-[var(--text)] group-hover:text-[var(--accent)] transition-colors" />
-                    <ArrowUpRight className="w-4 h-4 text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors" />
-                  </div>
-                  <div>
-                    <span className="font-display font-medium text-sm text-[var(--text)] group-hover:text-[var(--accent)] transition-colors block">
-                      GitHub
-                    </span>
-                    <span className="text-[11px] text-[var(--muted)] block">
-                      Code &amp; Repos
-                    </span>
-                  </div>
+                  <Github className="w-4 h-4" />
+                  GitHub
+                  <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
                 </a>
               )}
               {profile.socialLinks.linkedin && (
@@ -88,33 +84,26 @@ export function PortfolioView({ onOpenBlog: _onOpenBlog, onOpenPost: _onOpenPost
                   href={profile.socialLinks.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-col justify-between w-32 h-28 p-4 rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--accent)] hover:bg-[var(--surface-elevated)] transition-all shadow-sm"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all shadow-sm"
                 >
-                  <div className="flex items-center justify-between w-full">
-                    <Linkedin className="w-6 h-6 text-[var(--text)] group-hover:text-[var(--accent)] transition-colors" />
-                    <ArrowUpRight className="w-4 h-4 text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors" />
-                  </div>
-                  <div>
-                    <span className="font-display font-medium text-sm text-[var(--text)] group-hover:text-[var(--accent)] transition-colors block">
-                      LinkedIn
-                    </span>
-                    <span className="text-[11px] text-[var(--muted)] block">
-                      Connect
-                    </span>
-                  </div>
+                  <Linkedin className="w-4 h-4" />
+                  LinkedIn
+                  <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
                 </a>
               )}
             </div>
           </div>
 
-          <div className="lg:col-span-5">
-            <div className="h-full min-h-[260px] sm:min-h-[320px] max-h-[400px] overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-md">
+          {/* Right Column: Headshot Showcase */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-sm sm:max-w-md aspect-[4/5] rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] shadow-xl">
               <ResilientImage
-                src={profile.heroImageUrl}
-                alt={`${profile.fullName} studio workspace`}
+                src={profile.heroImageUrl || '/src/assets/images/abr_headshot.jpg'}
+                alt={`${profile.fullName} Headshot`}
                 fallbackTitle={profile.fullName}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-top"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)]/40 via-transparent to-transparent pointer-events-none" />
             </div>
           </div>
         </div>
