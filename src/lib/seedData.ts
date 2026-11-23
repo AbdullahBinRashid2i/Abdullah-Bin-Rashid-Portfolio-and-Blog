@@ -28,6 +28,21 @@ export const DEFAULT_PROFILE: SiteProfile = {
     linkedin: 'https://linkedin.com/in/abdullahbinrashid',
     email: 'abdullahbinrashid0@gmail.com',
   },
+  aboutSubtitle: 'Currently pursuing a BS in Computer Science, enrolling Fall 2026.',
+  aboutPillars: [
+    {
+      title: 'Architecture',
+      description: 'Designing clean, modular codebases for web applications, backend AI scripts, and responsive systems.',
+    },
+    {
+      title: 'Innovation',
+      description: 'Using modern AI tools, custom prompts, and performance tuning to deliver products faster.',
+    },
+    {
+      title: 'Execution',
+      description: 'Carrying ideas from concept to launch — from business web platforms to interactive media.',
+    },
+  ],
   updatedAt: new Date('2026-11-18T12:00:00Z'),
 };
 

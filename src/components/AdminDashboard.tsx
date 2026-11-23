@@ -456,7 +456,7 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label htmlFor="profile-bio" className="text-xs font-medium text-[var(--muted)]">
-                  Bio / About Me
+                  Bio / About Me Narrative
                 </label>
                 <span className="text-[11px] font-mono text-[var(--muted)] tabular-nums">
                   {profileForm.bio.length} / {LIMITS.bio}
@@ -464,13 +464,106 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
               </div>
               <textarea
                 id="profile-bio"
-                rows={4}
+                rows={5}
                 required
                 maxLength={LIMITS.bio}
                 value={profileForm.bio}
                 onChange={(e) => setProfileForm((p) => ({ ...p, bio: e.target.value }))}
+                placeholder="Write your background and story here..."
                 className={inputClass}
               />
+            </div>
+
+            {/* Dedicated About Me Section Settings */}
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)]/50 p-5 space-y-5">
+              <div>
+                <h3 className="text-sm font-semibold text-[var(--text)]">
+                  About Me Section Options
+                </h3>
+                <p className="text-xs text-[var(--muted)] mt-0.5">
+                  Customize the tagline and pillar highlights displayed in the dedicated About section.
+                </p>
+              </div>
+
+              <div>
+                <label htmlFor="about-subtitle" className={labelClass}>
+                  About Subtitle / Current Status
+                </label>
+                <input
+                  id="about-subtitle"
+                  type="text"
+                  maxLength={300}
+                  value={profileForm.aboutSubtitle ?? ''}
+                  onChange={(e) =>
+                    setProfileForm((p) => ({ ...p, aboutSubtitle: e.target.value }))
+                  }
+                  placeholder="e.g. Currently pursuing a BS in Computer Science, enrolling Fall 2026."
+                  className={inputClass}
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-medium text-[var(--muted)] block mb-2">
+                  Highlight Pillars (up to 3)
+                </label>
+                <div className="space-y-3">
+                  {[0, 1, 2].map((idx) => {
+                    const pillar = (profileForm.aboutPillars || [])[idx] || {
+                      title: idx === 0 ? 'Architecture' : idx === 1 ? 'Innovation' : 'Execution',
+                      description: '',
+                    };
+                    return (
+                      <div
+                        key={idx}
+                        className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3 rounded-lg border border-[var(--border)] bg-[var(--surface)]"
+                      >
+                        <div className="sm:col-span-1">
+                          <label className="text-[11px] text-[var(--muted)] block mb-1">
+                            Pillar {idx + 1} Title
+                          </label>
+                          <input
+                            type="text"
+                            maxLength={60}
+                            value={pillar.title}
+                            onChange={(e) => {
+                              const updated = [...(profileForm.aboutPillars || [
+                                { title: 'Architecture', description: '' },
+                                { title: 'Innovation', description: '' },
+                                { title: 'Execution', description: '' },
+                              ])];
+                              updated[idx] = { ...pillar, title: e.target.value };
+                              setProfileForm((p) => ({ ...p, aboutPillars: updated }));
+                            }}
+                            placeholder="Title"
+                            className={inputClass}
+                          />
+                        </div>
+                        <div className="sm:col-span-2">
+                          <label className="text-[11px] text-[var(--muted)] block mb-1">
+                            Pillar {idx + 1} Description
+                          </label>
+                          <input
+                            type="text"
+                            maxLength={300}
+                            value={pillar.description}
+                            onChange={(e) => {
+                              const updated = [...(profileForm.aboutPillars || [
+                                { title: 'Architecture', description: '' },
+                                { title: 'Innovation', description: '' },
+                                { title: 'Execution', description: '' },
+                              ])];
+                              updated[idx] = { ...pillar, description: e.target.value };
+                              setProfileForm((p) => ({ ...p, aboutPillars: updated }));
+                            }}
+                            placeholder="Short description..."
+                            className={inputClass}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
 
             {/* Interactive Skills Editor */}

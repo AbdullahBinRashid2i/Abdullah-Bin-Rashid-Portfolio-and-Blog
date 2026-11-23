@@ -14,6 +14,11 @@ export interface SocialLinks {
   email: string;
 }
 
+export interface AboutPillar {
+  title: string;
+  description: string;
+}
+
 export interface SiteProfile {
   fullName: string;
   tagline: string;
@@ -22,6 +27,8 @@ export interface SiteProfile {
   heroImageUrl: string;
   skills: string[];
   socialLinks: SocialLinks;
+  aboutSubtitle?: string;
+  aboutPillars?: AboutPillar[];
   updatedAt?: Date | null;
 }
 

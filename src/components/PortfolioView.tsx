@@ -134,7 +134,7 @@ export function PortfolioView({ onOpenBlog, onOpenPost }: PortfolioViewProps) {
             About
           </h2>
           <p className="text-sm sm:text-base text-[var(--muted)]">
-            Currently pursuing a BS in Computer Science, enrolling Fall 2026.
+            {profile.aboutSubtitle || 'Currently pursuing a BS in Computer Science, enrolling Fall 2026.'}
           </p>
           <div className="mt-4 w-16 h-[2px] bg-[var(--accent)]" />
         </div>
@@ -142,43 +142,38 @@ export function PortfolioView({ onOpenBlog, onOpenPost }: PortfolioViewProps) {
         {/* 2-Column Content Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           {/* Left Column: Narrative Paragraphs */}
-          <div className="lg:col-span-7 space-y-6 text-base sm:text-[17px] leading-relaxed text-[var(--text)]/90">
-            <p>
-              I&apos;m an undergraduate Computer Science student in Karachi with a focus on practical software engineering, AI workflows, and interactive web development.
-            </p>
-            <p className="text-[var(--muted)]">
-              My hands-on experience spans building backend systems with modern developer tooling, crafting responsive web applications, developing prototypes, and modeling clean UI systems.
-            </p>
+          <div className="lg:col-span-7 space-y-6 text-base sm:text-[17px] leading-relaxed text-[var(--text)]/90 whitespace-pre-line">
+            <p>{profile.bio}</p>
           </div>
 
           {/* Right Column: Pillars with Accent Left Border */}
           <div className="lg:col-span-5 space-y-8 pl-5 sm:pl-6 border-l-2 border-[var(--accent)]/80">
-            <div>
-              <h3 className="font-display text-base font-semibold text-[var(--accent)] mb-1.5 tracking-wide">
-                Architecture
-              </h3>
-              <p className="text-sm leading-relaxed text-[var(--muted)]">
-                Designing clean, modular codebases for web applications, backend AI scripts, and responsive systems.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="font-display text-base font-semibold text-[var(--accent)] mb-1.5 tracking-wide">
-                Innovation
-              </h3>
-              <p className="text-sm leading-relaxed text-[var(--muted)]">
-                Using modern AI tools, custom prompts, and performance tuning to deliver products faster.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="font-display text-base font-semibold text-[var(--accent)] mb-1.5 tracking-wide">
-                Execution
-              </h3>
-              <p className="text-sm leading-relaxed text-[var(--muted)]">
-                Carrying ideas from concept to launch — from business web platforms to interactive media.
-              </p>
-            </div>
+            {(profile.aboutPillars && profile.aboutPillars.length > 0
+              ? profile.aboutPillars
+              : [
+                  {
+                    title: 'Architecture',
+                    description: 'Designing clean, modular codebases for web applications, backend AI scripts, and responsive systems.',
+                  },
+                  {
+                    title: 'Innovation',
+                    description: 'Using modern AI tools, custom prompts, and performance tuning to deliver products faster.',
+                  },
+                  {
+                    title: 'Execution',
+                    description: 'Carrying ideas from concept to launch — from business web platforms to interactive media.',
+                  },
+                ]
+            ).map((pillar, idx) => (
+              <div key={`${pillar.title}-${idx}`}>
+                <h3 className="font-display text-base font-semibold text-[var(--accent)] mb-1.5 tracking-wide">
+                  {pillar.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-[var(--muted)]">
+                  {pillar.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

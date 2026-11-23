@@ -122,6 +122,13 @@ export function sanitizeProfileInput(input: SiteProfile) {
       linkedin: clampString(input.socialLinks?.linkedin || '', LIMITS.socialUrl),
       email: clampString(input.socialLinks?.email || '', LIMITS.email),
     },
+    aboutSubtitle: clampString(input.aboutSubtitle || '', 300),
+    aboutPillars: Array.isArray(input.aboutPillars)
+      ? input.aboutPillars.slice(0, 6).map((p) => ({
+          title: clampString(p.title || '', 60),
+          description: clampString(p.description || '', 400),
+        }))
+      : [],
   };
 }
 

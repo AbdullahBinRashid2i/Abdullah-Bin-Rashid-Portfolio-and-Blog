@@ -67,7 +67,9 @@ service cloud.firestore {
           'heroImageUrl',
           'skills',
           'socialLinks',
-          'updatedAt'
+          'updatedAt',
+          'aboutSubtitle',
+          'aboutPillars'
         ])
         && isValidBoundedString(data.fullName, 1, 120)
         && isValidBoundedString(data.tagline, 1, 160)
@@ -76,6 +78,8 @@ service cloud.firestore {
         && isValidBoundedString(data.heroImageUrl, 0, 1000)
         && isValidStringList(data.skills, 40)
         && isValidSocialLinks(data.socialLinks)
+        && (!('aboutSubtitle' in data) || isValidBoundedString(data.aboutSubtitle, 0, 300))
+        && (!('aboutPillars' in data) || data.aboutPillars is list)
         && data.updatedAt == request.time;
     }
 
