@@ -1,16 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
-  ArrowRight,
   ArrowUpRight,
   Check,
+  ChevronDown,
   Copy,
   Github,
   Linkedin,
   Mail,
-  X,
 } from 'lucide-react';
 import { useData } from '../context/DataContext';
-import { formatDate } from '../lib/validation';
 import { Project } from '../types';
 import { ResilientImage } from './ResilientImage';
 
@@ -19,18 +17,14 @@ interface PortfolioViewProps {
   onOpenPost: (postId: string) => void;
 }
 
-export function PortfolioView({ onOpenBlog, onOpenPost }: PortfolioViewProps) {
-  const { profile, projects, publishedPosts, loadingData } = useData();
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+export function PortfolioView({ onOpenBlog: _onOpenBlog, onOpenPost: _onOpenPost }: PortfolioViewProps) {
+  const { profile, projects, loadingData } = useData();
+  const [expandedProjectId, setExpandedProjectId] = useState<string | null>(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedProject(null);
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, []);
+  const toggleProject = (projectId: string) => {
+    setExpandedProjectId((prev) => (prev === projectId ? null : projectId));
+  };
 
   const handleCopyEmail = async () => {
     if (!profile.socialLinks.email) return;
@@ -178,7 +172,7 @@ export function PortfolioView({ onOpenBlog, onOpenPost }: PortfolioViewProps) {
         </div>
       </section>
 
-      {/* Featured Projects Section */}
+      {/* Featured Projects Section - Clean Accordion List */}
       <section id="projects" className="py-16 border-t border-[var(--border)]">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
@@ -193,11 +187,11 @@ export function PortfolioView({ onOpenBlog, onOpenPost }: PortfolioViewProps) {
         </div>
 
         {loadingData && projects.length === 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="space-y-4">
             {[1, 2, 3].map((n) => (
               <div
                 key={n}
-                className="h-80 rounded-2xl border border-[var(--border)] bg-[var(--surface)] animate-pulse"
+                className="h-20 rounded-xl border border-[var(--border)] bg-[var(--surface)] animate-pulse"
               />
             ))}
           </div>
@@ -211,92 +205,100 @@ export function PortfolioView({ onOpenBlog, onOpenPost }: PortfolioViewProps) {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project, index) => (
-              <article
-                key={project.id}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-colors"
-              >
-                <button
-                  type="button"
-                  onClick={() => setSelectedProject(project)}
-                  className="relative aspect-[4/3] w-full overflow-hidden bg-[var(--surface-elevated)] text-left cursor-pointer"
-                >
-                  <ResilientImage
-                    src={project.coverImageUrl}
-                    alt={project.title}
-                    fallbackTitle={project.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                  />
-                </button>
-
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="flex items-center justify-between gap-2 text-xs text-[var(--muted)] mb-2">
-                    <span>{project.category}</span>
-                    <span className="font-mono tabular-nums">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-
+          <div className="divide-y divide-[var(--border)] border-y border-[var(--border)]">
+            {projects.map((project, index) => {
+              const isExpanded = expandedProjectId === project.id;
+              return (
+                <article key={project.id} className="transition-colors">
+                  {/* Clickable Project Header / Row */}
                   <button
                     type="button"
-                    onClick={() => setSelectedProject(project)}
-                    className="text-left cursor-pointer"
+                    onClick={() => toggleProject(project.id)}
+                    aria-expanded={isExpanded}
+                    className="w-full py-5 sm:py-6 flex items-center justify-between gap-4 text-left group hover:opacity-85 transition-opacity cursor-pointer"
                   >
-                    <h3 className="font-display text-lg font-semibold text-[var(--text)] group-hover:text-[var(--accent)] transition-colors mb-2 leading-snug">
-                      {project.title}
-                    </h3>
+                    <div className="flex items-baseline gap-4 sm:gap-6 min-w-0">
+                      <span className="font-mono text-xs sm:text-sm text-[var(--muted)] tabular-nums shrink-0">
+                        {String(index + 1).padStart(2, '0')}.
+                      </span>
+                      <h3 className="font-display text-lg sm:text-2xl font-semibold text-[var(--text)] group-hover:text-[var(--accent)] transition-colors truncate">
+                        {project.title}
+                      </h3>
+                    </div>
+
+                    <div className="flex items-center gap-3 shrink-0">
+                      <span className="hidden sm:inline-block text-xs font-medium text-[var(--muted)] px-2.5 py-1 rounded-full border border-[var(--border)] bg-[var(--surface)]">
+                        {project.category}
+                      </span>
+                      <div
+                        className={`p-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] group-hover:text-[var(--accent)] transition-all duration-300 ${
+                          isExpanded ? 'rotate-180 text-[var(--accent)]' : ''
+                        }`}
+                      >
+                        <ChevronDown className="w-4 h-4" />
+                      </div>
+                    </div>
                   </button>
 
-                  <p className="text-sm text-[var(--muted)] leading-relaxed mb-5 line-clamp-3">
-                    {project.description}
-                  </p>
+                  {/* Animated Reveal Details Container */}
+                  <div
+                    className={`grid transition-all duration-300 ease-in-out ${
+                      isExpanded
+                        ? 'grid-rows-[1fr] opacity-100 pb-6'
+                        : 'grid-rows-[0fr] opacity-0 pb-0'
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="pl-8 sm:pl-12 pt-2 border-l-2 border-[var(--accent)]/50 ml-1.5 sm:ml-2 space-y-4">
+                        <p className="text-sm sm:text-base text-[var(--muted)] leading-relaxed max-w-[75ch]">
+                          {project.description}
+                        </p>
 
-                  <div className="mt-auto pt-4 border-t border-[var(--border)] space-y-4">
-                    {project.techStack.length > 0 && (
-                      <p className="text-xs text-[var(--muted)] leading-relaxed">
-                        {project.techStack.join(' · ')}
-                      </p>
-                    )}
-
-                    <div className="flex items-center justify-between gap-4 text-xs font-medium">
-                      <button
-                        type="button"
-                        onClick={() => setSelectedProject(project)}
-                        className="text-[var(--text)] hover:text-[var(--accent)] transition-colors cursor-pointer"
-                      >
-                        View Details
-                      </button>
-
-                      <div className="flex items-center gap-4">
-                        {project.githubUrl && (
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-[var(--muted)] hover:text-[var(--text)] transition-colors"
-                          >
-                            <Github className="w-3.5 h-3.5" />
-                            Code
-                          </a>
+                        {project.techStack.length > 0 && (
+                          <div className="flex flex-wrap items-center gap-2 pt-1">
+                            <span className="text-xs text-[var(--muted)] font-mono">Tech:</span>
+                            {project.techStack.map((tech) => (
+                              <span
+                                key={tech}
+                                className="text-xs font-medium px-2 py-0.5 rounded bg-[var(--surface)] border border-[var(--border)] text-[var(--text)]"
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
                         )}
-                        {project.liveUrl && (
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-[var(--accent)] hover:underline"
-                          >
-                            Live
-                            <ArrowUpRight className="w-3.5 h-3.5" />
-                          </a>
-                        )}
+
+                        {/* Direct Live and Code Action Links */}
+                        <div className="flex items-center gap-4 pt-2">
+                          {project.liveUrl && (
+                            <a
+                              href={project.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs sm:text-sm font-medium bg-[var(--accent)] text-[var(--accent-fg)] hover:opacity-90 transition-opacity"
+                            >
+                              Live Project
+                              <ArrowUpRight className="w-3.5 h-3.5" />
+                            </a>
+                          )}
+                          {project.githubUrl && (
+                            <a
+                              href={project.githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs sm:text-sm font-medium border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+                            >
+                              <Github className="w-3.5 h-3.5" />
+                              View Code
+                            </a>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </article>
-            ))}
+                </article>
+              );
+            })}
           </div>
         )}
       </section>
@@ -346,67 +348,6 @@ export function PortfolioView({ onOpenBlog, onOpenPost }: PortfolioViewProps) {
           </div>
         </div>
       </section>
-
-      {/* Latest Writing Preview Section */}
-      {recentPosts.length > 0 && (
-        <section className="py-16 border-t border-[var(--border)]">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
-            <div>
-              <p className="text-xs font-medium text-[var(--muted)] mb-2">03. Journal</p>
-              <h2 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-[var(--text)]">
-                Latest from the Blog
-              </h2>
-            </div>
-            <button
-              type="button"
-              onClick={onOpenBlog}
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--accent)] hover:underline cursor-pointer self-start sm:self-auto"
-            >
-              View All Articles
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {recentPosts.map((post) => (
-              <button
-                key={post.id}
-                type="button"
-                onClick={() => onOpenPost(post.id)}
-                className="group text-left flex flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-colors cursor-pointer"
-              >
-                <div className="aspect-[16/9] w-full overflow-hidden bg-[var(--surface-elevated)]">
-                  <ResilientImage
-                    src={post.coverImageUrl}
-                    alt={post.title}
-                    fallbackTitle={post.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                  />
-                </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[var(--muted)] mb-2.5">
-                    <span className="tabular-nums">{formatDate(post.createdAt)}</span>
-                    <span aria-hidden="true">·</span>
-                    <span className="tabular-nums">{post.readingTimeMinutes} min read</span>
-                    {post.tags.length > 0 && (
-                      <>
-                        <span aria-hidden="true">·</span>
-                        <span>{post.tags.slice(0, 2).join(' / ')}</span>
-                      </>
-                    )}
-                  </div>
-                  <h3 className="font-display text-xl font-semibold text-[var(--text)] group-hover:text-[var(--accent)] transition-colors mb-2 leading-snug">
-                    {post.title}
-                  </h3>
-                  <p className="text-sm text-[var(--muted)] leading-relaxed line-clamp-2">
-                    {post.excerpt}
-                  </p>
-                </div>
-              </button>
-            ))}
-          </div>
-        </section>
-      )}
 
       {/* Contact & Social Links Section */}
       <section id="contact" className="py-16 border-t border-[var(--border)]">
@@ -500,97 +441,6 @@ export function PortfolioView({ onOpenBlog, onOpenPost }: PortfolioViewProps) {
           </div>
         </div>
       </section>
-
-      {/* Project Lightbox Detail Modal */}
-      {selectedProject && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="project-modal-title"
-          onClick={() => setSelectedProject(null)}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4 sm:p-6 overflow-y-auto"
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-3xl overflow-hidden rounded-2xl border border-[var(--border-strong)] bg-[var(--surface)] shadow-2xl my-auto"
-          >
-            <div className="relative aspect-[16/9] w-full bg-[var(--surface-elevated)]">
-              <ResilientImage
-                src={selectedProject.coverImageUrl}
-                alt={selectedProject.title}
-                fallbackTitle={selectedProject.title}
-                className="w-full h-full object-cover"
-              />
-              <button
-                type="button"
-                onClick={() => setSelectedProject(null)}
-                aria-label="Close project details"
-                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-black/90 transition-colors cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="p-6 sm:p-8">
-              <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--muted)] mb-2">
-                <span>{selectedProject.category}</span>
-                {selectedProject.techStack.length > 0 && (
-                  <>
-                    <span aria-hidden="true">·</span>
-                    <span>{selectedProject.techStack.join(' · ')}</span>
-                  </>
-                )}
-              </div>
-
-              <h3
-                id="project-modal-title"
-                className="font-display text-2xl sm:text-3xl font-semibold text-[var(--text)] mb-4"
-              >
-                {selectedProject.title}
-              </h3>
-
-              <p className="text-sm sm:text-base text-[var(--muted)] leading-relaxed mb-7">
-                {selectedProject.description}
-              </p>
-
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-5 border-t border-[var(--border)]">
-                <div className="flex flex-wrap items-center gap-3">
-                  {selectedProject.liveUrl && (
-                    <a
-                      href={selectedProject.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium bg-[var(--accent)] text-[var(--accent-fg)] hover:opacity-90 transition-opacity"
-                    >
-                      Open Live Project
-                      <ArrowUpRight className="w-4 h-4" />
-                    </a>
-                  )}
-                  {selectedProject.githubUrl && (
-                    <a
-                      href={selectedProject.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium border border-[var(--border-strong)] text-[var(--text)] hover:border-[var(--accent)] transition-colors"
-                    >
-                      <Github className="w-4 h-4" />
-                      View Source
-                    </a>
-                  )}
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setSelectedProject(null)}
-                  className="text-xs font-medium text-[var(--muted)] hover:text-[var(--text)] transition-colors cursor-pointer"
-                >
-                  Close (ESC)
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </main>
   );
 }
