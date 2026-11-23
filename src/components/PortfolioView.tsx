@@ -66,18 +66,27 @@ export function PortfolioView({ onOpenBlog, onOpenPost }: PortfolioViewProps) {
               </p>
             </div>
 
-            {/* Direct GitHub & LinkedIn Links */}
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            {/* Direct GitHub & LinkedIn Links - prominent square-like cards */}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
               {profile.socialLinks.github && (
                 <a
                   href={profile.socialLinks.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all whitespace-nowrap shadow-sm"
+                  className="group flex flex-col justify-between w-32 h-28 p-4 rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--accent)] hover:bg-[var(--surface-elevated)] transition-all shadow-sm"
                 >
-                  <Github className="w-4 h-4" />
-                  GitHub
-                  <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
+                  <div className="flex items-center justify-between w-full">
+                    <Github className="w-6 h-6 text-[var(--text)] group-hover:text-[var(--accent)] transition-colors" />
+                    <ArrowUpRight className="w-4 h-4 text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors" />
+                  </div>
+                  <div>
+                    <span className="font-display font-medium text-sm text-[var(--text)] group-hover:text-[var(--accent)] transition-colors block">
+                      GitHub
+                    </span>
+                    <span className="text-[11px] text-[var(--muted)] block">
+                      Code &amp; Repos
+                    </span>
+                  </div>
                 </a>
               )}
               {profile.socialLinks.linkedin && (
@@ -85,11 +94,20 @@ export function PortfolioView({ onOpenBlog, onOpenPost }: PortfolioViewProps) {
                   href={profile.socialLinks.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all whitespace-nowrap shadow-sm"
+                  className="group flex flex-col justify-between w-32 h-28 p-4 rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--accent)] hover:bg-[var(--surface-elevated)] transition-all shadow-sm"
                 >
-                  <Linkedin className="w-4 h-4" />
-                  LinkedIn
-                  <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
+                  <div className="flex items-center justify-between w-full">
+                    <Linkedin className="w-6 h-6 text-[var(--text)] group-hover:text-[var(--accent)] transition-colors" />
+                    <ArrowUpRight className="w-4 h-4 text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors" />
+                  </div>
+                  <div>
+                    <span className="font-display font-medium text-sm text-[var(--text)] group-hover:text-[var(--accent)] transition-colors block">
+                      LinkedIn
+                    </span>
+                    <span className="text-[11px] text-[var(--muted)] block">
+                      Connect
+                    </span>
+                  </div>
                 </a>
               )}
             </div>
@@ -108,19 +126,57 @@ export function PortfolioView({ onOpenBlog, onOpenPost }: PortfolioViewProps) {
         </div>
       </section>
 
-      {/* Dedicated About Me Section */}
-      <section id="about" className="py-14 border-t border-[var(--border)]">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-          <div className="lg:col-span-4">
-            <p className="text-xs font-medium text-[var(--muted)] mb-2">01. Background</p>
-            <h2 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-[var(--text)]">
-              About Me
-            </h2>
+      {/* Dedicated Editorial About Me Section (Matching Reference Style) */}
+      <section id="about" className="py-16 border-t border-[var(--border)]">
+        {/* Section Header */}
+        <div className="mb-10">
+          <h2 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight text-[var(--text)] mb-3">
+            About
+          </h2>
+          <p className="text-sm sm:text-base text-[var(--muted)]">
+            Currently pursuing a BS in Computer Science, enrolling Fall 2026.
+          </p>
+          <div className="mt-4 w-16 h-[2px] bg-[var(--accent)]" />
+        </div>
+
+        {/* 2-Column Content Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          {/* Left Column: Narrative Paragraphs */}
+          <div className="lg:col-span-7 space-y-6 text-base sm:text-[17px] leading-relaxed text-[var(--text)]/90">
+            <p>
+              I&apos;m an undergraduate Computer Science student in Karachi with a focus on practical software engineering, AI workflows, and interactive web development.
+            </p>
+            <p className="text-[var(--muted)]">
+              My hands-on experience spans building backend systems with modern developer tooling, crafting responsive web applications, developing prototypes, and modeling clean UI systems.
+            </p>
           </div>
-          <div className="lg:col-span-8">
-            <div className="prose prose-neutral dark:prose-invert max-w-none">
-              <p className="text-base sm:text-lg leading-relaxed text-[var(--text)] font-normal">
-                {profile.bio}
+
+          {/* Right Column: Pillars with Accent Left Border */}
+          <div className="lg:col-span-5 space-y-8 pl-5 sm:pl-6 border-l-2 border-[var(--accent)]/80">
+            <div>
+              <h3 className="font-display text-base font-semibold text-[var(--accent)] mb-1.5 tracking-wide">
+                Architecture
+              </h3>
+              <p className="text-sm leading-relaxed text-[var(--muted)]">
+                Designing clean, modular codebases for web applications, backend AI scripts, and responsive systems.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-display text-base font-semibold text-[var(--accent)] mb-1.5 tracking-wide">
+                Innovation
+              </h3>
+              <p className="text-sm leading-relaxed text-[var(--muted)]">
+                Using modern AI tools, custom prompts, and performance tuning to deliver products faster.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-display text-base font-semibold text-[var(--accent)] mb-1.5 tracking-wide">
+                Execution
+              </h3>
+              <p className="text-sm leading-relaxed text-[var(--muted)]">
+                Carrying ideas from concept to launch — from business web platforms to interactive media.
               </p>
             </div>
           </div>
