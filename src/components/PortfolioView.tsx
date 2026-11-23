@@ -47,45 +47,56 @@ export function PortfolioView({ onOpenBlog, onOpenPost }: PortfolioViewProps) {
 
   return (
     <main className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-      {/* Split-Screen Hero & Bio Section */}
-      <section id="about" className="pt-14 pb-16 lg:pt-20 lg:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
-          <div className="lg:col-span-7 flex flex-col justify-between py-2">
+      {/* Hero Section */}
+      <section id="hero" className="pt-14 pb-12 lg:pt-20 lg:pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div className="lg:col-span-7 flex flex-col justify-center py-2">
             <div>
-              <p className="text-sm font-medium text-[var(--muted)] mb-4">
+              <p className="text-sm font-medium text-[var(--muted)] mb-3">
                 {profile.location}
               </p>
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-tight leading-[1.06] text-[var(--text)] mb-5">
+              <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-tight leading-[1.06] text-[var(--text)] mb-4">
                 {profile.fullName}
               </h1>
-              <p className="font-display text-xl sm:text-2xl font-medium text-[var(--accent)] mb-6">
+              <p className="font-display text-xl sm:text-2xl font-medium text-[var(--accent)] mb-4">
                 {profile.tagline}
               </p>
               <p className="text-base leading-relaxed text-[var(--muted)] max-w-[60ch]">
-                {profile.bio}
+                Undergraduate Computer Science student &amp; developer crafting refined digital products, modern web architectures, and deliberate design systems.
               </p>
             </div>
 
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <a
-                href="#projects"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-lg text-sm font-medium bg-[var(--accent)] text-[var(--accent-fg)] hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
-              >
-                Explore Projects
-                <ArrowRight className="w-4 h-4" />
-              </a>
-              <button
-                type="button"
-                onClick={onOpenBlog}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-lg text-sm font-medium border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--accent)] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-              >
-                Read the Blog
-              </button>
+            {/* Direct GitHub & LinkedIn Links */}
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              {profile.socialLinks.github && (
+                <a
+                  href={profile.socialLinks.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all whitespace-nowrap shadow-sm"
+                >
+                  <Github className="w-4 h-4" />
+                  GitHub
+                  <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
+                </a>
+              )}
+              {profile.socialLinks.linkedin && (
+                <a
+                  href={profile.socialLinks.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all whitespace-nowrap shadow-sm"
+                >
+                  <Linkedin className="w-4 h-4" />
+                  LinkedIn
+                  <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
+                </a>
+              )}
             </div>
           </div>
 
           <div className="lg:col-span-5">
-            <div className="h-full min-h-[280px] sm:min-h-[340px] overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)]">
+            <div className="h-full min-h-[260px] sm:min-h-[320px] max-h-[400px] overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-md">
               <ResilientImage
                 src={profile.heroImageUrl}
                 alt={`${profile.fullName} studio workspace`}
@@ -95,72 +106,23 @@ export function PortfolioView({ onOpenBlog, onOpenPost }: PortfolioViewProps) {
             </div>
           </div>
         </div>
-
-        {/* Full-width editorial highlights strip below the hero split */}
-        <div className="mt-14 pt-8 border-t border-[var(--border)] grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <div>
-            <p className="text-xs text-[var(--muted)] mb-1">Academic Track</p>
-            <p className="font-display text-lg font-semibold text-[var(--text)]">
-              CS Undergraduate · GU Tech
-            </p>
-          </div>
-          <div>
-            <p className="text-xs text-[var(--muted)] mb-1">Core Discipline</p>
-            <p className="font-display text-lg font-semibold text-[var(--text)]">
-              Full-Stack Engineering &amp; Graphic Design
-            </p>
-          </div>
-          <div>
-            <p className="text-xs text-[var(--muted)] mb-1">Live Portfolio Index</p>
-            <p className="font-display text-lg font-semibold text-[var(--text)] tabular-nums">
-              {projects.length} Projects · {publishedPosts.length} Articles
-            </p>
-          </div>
-        </div>
       </section>
 
-      {/* Skills & Tech Stack Section */}
-      <section id="skills" className="py-16 border-t border-[var(--border)]">
+      {/* Dedicated About Me Section */}
+      <section id="about" className="py-14 border-t border-[var(--border)]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           <div className="lg:col-span-4">
-            <p className="text-xs font-medium text-[var(--muted)] mb-2">01. Capabilities</p>
-            <h2 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-[var(--text)] mb-3">
-              Skills &amp; Craft Stack
+            <p className="text-xs font-medium text-[var(--muted)] mb-2">01. Background</p>
+            <h2 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-[var(--text)]">
+              About Me
             </h2>
-            <p className="text-sm text-[var(--muted)] leading-relaxed">
-              Tools, languages, and visual design disciplines I work with across web engineering and identity design.
-            </p>
           </div>
-
           <div className="lg:col-span-8">
-            {loadingData && profile.skills.length === 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {[1, 2, 3, 4, 5, 6].map((n) => (
-                  <div
-                    key={n}
-                    className="h-14 rounded-lg border border-[var(--border)] bg-[var(--surface)] animate-pulse"
-                  />
-                ))}
-              </div>
-            ) : profile.skills.length === 0 ? (
-              <p className="text-sm text-[var(--muted)] py-6 border border-[var(--border)] rounded-xl px-5 bg-[var(--surface)]">
-                Skills have not been added yet.
+            <div className="prose prose-neutral dark:prose-invert max-w-none">
+              <p className="text-base sm:text-lg leading-relaxed text-[var(--text)] font-normal">
+                {profile.bio}
               </p>
-            ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 border-t border-l border-[var(--border)]">
-                {profile.skills.map((skill, idx) => (
-                  <div
-                    key={`${skill}-${idx}`}
-                    className="border-r border-b border-[var(--border)] bg-[var(--surface)]/50 px-4 py-4 flex items-baseline justify-between gap-2 hover:bg-[var(--surface)] transition-colors"
-                  >
-                    <span className="text-sm font-medium text-[var(--text)] truncate">{skill}</span>
-                    <span className="font-mono text-[11px] text-[var(--muted)] tabular-nums shrink-0">
-                      {String(idx + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
+            </div>
           </div>
         </div>
       </section>
@@ -286,6 +248,52 @@ export function PortfolioView({ onOpenBlog, onOpenPost }: PortfolioViewProps) {
             ))}
           </div>
         )}
+      </section>
+
+      {/* Skills & Tech Stack Section */}
+      <section id="skills" className="py-16 border-t border-[var(--border)]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+          <div className="lg:col-span-4">
+            <p className="text-xs font-medium text-[var(--muted)] mb-2">03. Capabilities</p>
+            <h2 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-[var(--text)] mb-3">
+              Skills &amp; Craft Stack
+            </h2>
+            <p className="text-sm text-[var(--muted)] leading-relaxed">
+              Tools, languages, and visual design disciplines I work with across web engineering and identity design.
+            </p>
+          </div>
+
+          <div className="lg:col-span-8">
+            {loadingData && profile.skills.length === 0 ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {[1, 2, 3, 4, 5, 6].map((n) => (
+                  <div
+                    key={n}
+                    className="h-14 rounded-lg border border-[var(--border)] bg-[var(--surface)] animate-pulse"
+                  />
+                ))}
+              </div>
+            ) : profile.skills.length === 0 ? (
+              <p className="text-sm text-[var(--muted)] py-6 border border-[var(--border)] rounded-xl px-5 bg-[var(--surface)]">
+                Skills have not been added yet.
+              </p>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 border-t border-l border-[var(--border)]">
+                {profile.skills.map((skill, idx) => (
+                  <div
+                    key={`${skill}-${idx}`}
+                    className="border-r border-b border-[var(--border)] bg-[var(--surface)]/50 px-4 py-4 flex items-baseline justify-between gap-2 hover:bg-[var(--surface)] transition-colors"
+                  >
+                    <span className="text-sm font-medium text-[var(--text)] truncate">{skill}</span>
+                    <span className="font-mono text-[11px] text-[var(--muted)] tabular-nums shrink-0">
+                      {String(idx + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </section>
 
       {/* Latest Writing Preview Section */}
