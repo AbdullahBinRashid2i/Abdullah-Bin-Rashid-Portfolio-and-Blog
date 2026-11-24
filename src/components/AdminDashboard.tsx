@@ -451,6 +451,23 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
                   className={inputClass}
                 />
               </div>
+
+              <div>
+                <label htmlFor="profile-resume" className={labelClass}>
+                  Resume / CV Link or File URL
+                </label>
+                <input
+                  id="profile-resume"
+                  type="text"
+                  maxLength={LIMITS.url}
+                  value={profileForm.resumeUrl ?? ''}
+                  onChange={(e) =>
+                    setProfileForm((p) => ({ ...p, resumeUrl: e.target.value }))
+                  }
+                  placeholder="/Abdullah_Bin_Rashid_Resume.pdf or https://drive.google.com/..."
+                  className={inputClass}
+                />
+              </div>
             </div>
 
             <div>

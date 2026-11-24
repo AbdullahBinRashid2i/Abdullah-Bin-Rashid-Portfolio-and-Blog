@@ -4,6 +4,7 @@ import {
   Check,
   ChevronDown,
   Copy,
+  FileDown,
   Github,
   Linkedin,
   Mail,
@@ -127,9 +128,21 @@ export function PortfolioView({ onOpenBlog: _onOpenBlog, onOpenPost: _onOpenPost
               </FlipText>
             </div>
 
-            {/* GitHub and LinkedIn Links */}
+            {/* GitHub, LinkedIn, and Resume Download Links */}
             <FlipText delay={0.35}>
               <div className="mt-8 flex flex-wrap items-center gap-3">
+                {profile.resumeUrl && (
+                  <a
+                    href={profile.resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download="Abdullah_Bin_Rashid_Resume.pdf"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-[var(--accent)] text-[var(--accent-fg)] hover:opacity-90 transition-all shadow-sm"
+                  >
+                    <FileDown className="w-4 h-4" />
+                    <span>Download CV / Resume</span>
+                  </a>
+                )}
                 {profile.socialLinks.github && (
                   <a
                     href={profile.socialLinks.github}

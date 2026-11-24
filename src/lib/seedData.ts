@@ -7,6 +7,7 @@ export const DEFAULT_PROFILE: SiteProfile = {
   location: 'Based in Karachi, Pakistan',
   bio: "I'm a Computer Science student who moves between AI-assisted backend systems, full-stack web work, Unity game design, and 3D modeling in Blender — usually with a PC case open on the desk beside me.",
   heroImageUrl: '/src/assets/images/abr_headshot.jpg',
+  resumeUrl: '/Abdullah_Bin_Rashid_Resume.pdf',
   skills: [
     'React',
     'TypeScript',

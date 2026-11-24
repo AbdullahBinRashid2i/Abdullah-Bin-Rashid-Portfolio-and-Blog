@@ -116,6 +116,7 @@ export function sanitizeProfileInput(input: SiteProfile) {
     bio,
     location,
     heroImageUrl: clampString(input.heroImageUrl || '', LIMITS.url),
+    resumeUrl: clampString(input.resumeUrl || '', LIMITS.url),
     skills: sanitizeStringList(input.skills || [], LIMITS.skillsMax),
     socialLinks: {
       github: clampString(input.socialLinks?.github || '', LIMITS.socialUrl),

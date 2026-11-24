@@ -69,13 +69,15 @@ service cloud.firestore {
           'socialLinks',
           'updatedAt',
           'aboutSubtitle',
-          'aboutPillars'
+          'aboutPillars',
+          'resumeUrl'
         ])
         && isValidBoundedString(data.fullName, 1, 120)
         && isValidBoundedString(data.tagline, 1, 160)
         && isValidBoundedString(data.bio, 1, 3000)
         && isValidBoundedString(data.location, 1, 120)
         && isValidBoundedString(data.heroImageUrl, 0, 1000)
+        && (!('resumeUrl' in data) || isValidBoundedString(data.resumeUrl, 0, 1000))
         && isValidStringList(data.skills, 40)
         && isValidSocialLinks(data.socialLinks)
         && (!('aboutSubtitle' in data) || isValidBoundedString(data.aboutSubtitle, 0, 300))

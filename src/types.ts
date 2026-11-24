@@ -25,6 +25,7 @@ export interface SiteProfile {
   bio: string;
   location: string;
   heroImageUrl: string;
+  resumeUrl?: string;
   skills: string[];
   socialLinks: SocialLinks;
   aboutSubtitle?: string;
