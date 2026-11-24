@@ -95,19 +95,17 @@ export function Navbar({ view, onNavigateView, onJumpSection }: NavbarProps) {
 
           {/* Zone 3: Actions - Resume Button & View Switcher */}
           <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
-            {profile.resumeUrl && (
-              <a
-                href={profile.resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                download="Abdullah_Bin_Rashid_Resume.pdf"
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all whitespace-nowrap shadow-sm cursor-pointer"
-                title="View or Download Resume"
-              >
-                <FileDown className="w-4 h-4 text-[var(--accent)]" />
-                <span>Resume</span>
-              </a>
-            )}
+            <a
+              href={profile.resumeUrl || '/Abdullah_Bin_Rashid_Resume.pdf'}
+              target="_blank"
+              rel="noopener noreferrer"
+              download="Abdullah_Bin_Rashid_Resume.pdf"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all whitespace-nowrap shadow-sm cursor-pointer"
+              title="View or Download Resume"
+            >
+              <FileDown className="w-4 h-4 text-[var(--accent)]" />
+              <span>Resume</span>
+            </a>
 
             <button
               type="button"
@@ -144,20 +142,18 @@ export function Navbar({ view, onNavigateView, onJumpSection }: NavbarProps) {
               ))}
             </nav>
 
-            {profile.resumeUrl && (
-              <div className="pt-2 border-t border-[var(--border)]">
-                <a
-                  href={profile.resumeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download="Abdullah_Bin_Rashid_Resume.pdf"
-                  className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium border border-[var(--border-strong)] bg-[var(--surface-elevated)] text-[var(--text)] hover:border-[var(--accent)] transition-colors"
-                >
-                  <FileDown className="w-4 h-4 text-[var(--accent)]" />
-                  View / Download Resume
-                </a>
-              </div>
-            )}
+            <div className="pt-2 border-t border-[var(--border)]">
+              <a
+                href={profile.resumeUrl || '/Abdullah_Bin_Rashid_Resume.pdf'}
+                target="_blank"
+                rel="noopener noreferrer"
+                download="Abdullah_Bin_Rashid_Resume.pdf"
+                className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium border border-[var(--border-strong)] bg-[var(--surface-elevated)] text-[var(--text)] hover:border-[var(--accent)] transition-colors"
+              >
+                <FileDown className="w-4 h-4 text-[var(--accent)]" />
+                View / Download Resume
+              </a>
+            </div>
           </div>
         )}
       </header>

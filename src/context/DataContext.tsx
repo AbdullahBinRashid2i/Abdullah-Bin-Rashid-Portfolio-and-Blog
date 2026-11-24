@@ -154,18 +154,72 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       (snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.data();
+
+          // Safeguards against stale or incomplete Firestore documents overriding verified resume profile
+          const rawHero = String(data.heroImageUrl || '').trim();
+          const heroImageUrl =
+            !rawHero || rawHero.includes('hero_studio_desk')
+              ? DEFAULT_PROFILE.heroImageUrl
+              : rawHero;
+
+          const rawResume = String(data.resumeUrl || '').trim();
+          const resumeUrl =
+            rawResume || DEFAULT_PROFILE.resumeUrl || '/Abdullah_Bin_Rashid_Resume.pdf';
+
+          const rawBio = String(data.bio || '').trim();
+          const isOutdatedSeedBio =
+            !rawBio ||
+            rawBio.includes('Swiss grid systems') ||
+            rawBio.includes('craft web products that feel both engineered');
+          const bio = isOutdatedSeedBio ? DEFAULT_PROFILE.bio : rawBio;
+
+          const rawSubtitle = String(data.aboutSubtitle || '').trim();
+          const isOutdatedSubtitle =
+            !rawSubtitle || rawSubtitle.includes('enrolling Fall 2026');
+          const aboutSubtitle = isOutdatedSubtitle
+            ? (DEFAULT_PROFILE.aboutSubtitle || '')
+            : rawSubtitle;
+
+          const aboutPillars =
+            Array.isArray(data.aboutPillars) && data.aboutPillars.length > 0
+              ? data.aboutPillars.map((p) => ({
+                  title: String(p.title || ''),
+                  description: String(p.description || ''),
+                }))
+              : DEFAULT_PROFILE.aboutPillars;
+
+          const rawGithub = String(data.socialLinks?.github || '').trim();
+          const github =
+            !rawGithub || rawGithub.endsWith('/abdullahbinrashid')
+              ? DEFAULT_PROFILE.socialLinks.github
+              : rawGithub;
+
+          const rawLinkedin = String(data.socialLinks?.linkedin || '').trim();
+          const linkedin =
+            !rawLinkedin || rawLinkedin.endsWith('/abdullahbinrashid')
+              ? DEFAULT_PROFILE.socialLinks.linkedin
+              : rawLinkedin;
+
+          const email = String(data.socialLinks?.email || DEFAULT_PROFILE.socialLinks.email);
+
+          const rawSkills = Array.isArray(data.skills) ? data.skills.map(String) : [];
+          const skills = rawSkills.length >= 10 ? rawSkills : DEFAULT_PROFILE.skills;
+
           setRemoteProfile({
             fullName: String(data.fullName || DEFAULT_PROFILE.fullName),
             tagline: String(data.tagline || DEFAULT_PROFILE.tagline),
-            bio: String(data.bio || DEFAULT_PROFILE.bio),
+            bio,
             location: String(data.location || DEFAULT_PROFILE.location),
-            heroImageUrl: String(data.heroImageUrl ?? ''),
-            skills: Array.isArray(data.skills) ? data.skills.map(String) : [],
+            heroImageUrl,
+            resumeUrl,
+            skills,
             socialLinks: {
-              github: String(data.socialLinks?.github || ''),
-              linkedin: String(data.socialLinks?.linkedin || ''),
-              email: String(data.socialLinks?.email || ''),
+              github,
+              linkedin,
+              email,
             },
+            aboutSubtitle,
+            aboutPillars,
             updatedAt: toDate(data.updatedAt),
           });
         } else {
@@ -299,6 +353,16 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         updatedAt: serverTimestamp(),
       });
 
+      // Remove legacy mock projects if present
+      const oldMockIds = [
+        'campusflow-study-hub',
+        'moderne-form-identity',
+        'chromagrid-token-studio',
+      ];
+      for (const oldId of oldMockIds) {
+        batch.delete(doc(db, 'projects', oldId));
+      }
+
       for (const proj of DEFAULT_PROJECTS) {
         const payload = sanitizeProjectInput({
           title: proj.title,
@@ -348,24 +412,36 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     }
   }, [isAdmin, addToast]);
 
-  // Auto-seed Cloud Firestore on the admin's very first sign-in if profile doc doesn't exist yet
+  // Auto-sync Cloud Firestore on admin sign-in if profile is unseeded or holds outdated boilerplate
   useEffect(() => {
-    if (!isAdmin || !profileLoaded || remoteProfile || autoSeedAttempted.current) return;
-    autoSeedAttempted.current = true;
+    if (!isAdmin || !profileLoaded || autoSeedAttempted.current) return;
 
-    const checkAndSeed = async () => {
+    const checkAndSync = async () => {
       try {
         const snap = await getDoc(doc(db, 'siteContent', 'profile'));
         if (!snap.exists()) {
+          autoSeedAttempted.current = true;
           await seedDefaultContent();
+        } else {
+          const data = snap.data();
+          const rawHero = String(data.heroImageUrl || '');
+          const rawBio = String(data.bio || '');
+          const isStale =
+            rawHero.includes('hero_studio_desk') ||
+            rawBio.includes('Swiss grid systems') ||
+            !data.resumeUrl;
+          if (isStale) {
+            autoSeedAttempted.current = true;
+            await seedDefaultContent();
+          }
         }
-      } catch (error) {
-        handleFirestoreError(error, OperationType.GET, 'siteContent/profile');
+      } catch {
+        // Silently continue if background check encounters transient issue
       }
     };
 
-    void checkAndSeed();
-  }, [isAdmin, profileLoaded, remoteProfile, seedDefaultContent]);
+    void checkAndSync();
+  }, [isAdmin, profileLoaded, seedDefaultContent]);
 
   const signInAsAdmin = useCallback(async (): Promise<boolean> => {
     setAuthLoading(true);
@@ -563,7 +639,20 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
 
   // Before the admin ever seeds Firestore, show default projects/posts cleanly to visitors.
   // Once seeded, reflect exact live Firestore records (even if empty).
-  const projects = isSeededInFirestore || remoteProjects.length > 0 ? remoteProjects : DEFAULT_PROJECTS;
+  // If Firestore only holds the legacy template mock projects, display verified resume projects
+  const isMockProjects =
+    remoteProjects.length > 0 &&
+    remoteProjects.some(
+      (p) =>
+        p.id === 'campusflow-study-hub' ||
+        p.id === 'moderne-form-identity' ||
+        p.id === 'chromagrid-token-studio'
+    );
+
+  const projects =
+    isSeededInFirestore && !isMockProjects && remoteProjects.length > 0
+      ? remoteProjects
+      : DEFAULT_PROJECTS;
   const posts = isSeededInFirestore || remotePosts.length > 0 ? remotePosts : DEFAULT_POSTS;
 
   const publishedPosts = useMemo(

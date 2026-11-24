@@ -131,18 +131,16 @@ export function PortfolioView({ onOpenBlog: _onOpenBlog, onOpenPost: _onOpenPost
             {/* GitHub, LinkedIn, and Resume Download Links */}
             <FlipText delay={0.35}>
               <div className="mt-8 flex flex-wrap items-center gap-3">
-                {profile.resumeUrl && (
-                  <a
-                    href={profile.resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    download="Abdullah_Bin_Rashid_Resume.pdf"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-[var(--accent)] text-[var(--accent-fg)] hover:opacity-90 transition-all shadow-sm"
-                  >
-                    <FileDown className="w-4 h-4" />
-                    <span>Download CV / Resume</span>
-                  </a>
-                )}
+                <a
+                  href={profile.resumeUrl || '/Abdullah_Bin_Rashid_Resume.pdf'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download="Abdullah_Bin_Rashid_Resume.pdf"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-[var(--accent)] text-[var(--accent-fg)] hover:opacity-90 transition-all shadow-sm"
+                >
+                  <FileDown className="w-4 h-4" />
+                  <span>Download CV / Resume</span>
+                </a>
                 {profile.socialLinks.github && (
                   <a
                     href={profile.socialLinks.github}
@@ -181,7 +179,11 @@ export function PortfolioView({ onOpenBlog: _onOpenBlog, onOpenPost: _onOpenPost
               className="relative w-full max-w-sm sm:max-w-md aspect-[4/5] rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] shadow-xl"
             >
               <ResilientImage
-                src={profile.heroImageUrl || '/src/assets/images/abr_headshot.jpg'}
+                src={
+                  profile.heroImageUrl && !profile.heroImageUrl.includes('hero_studio_desk')
+                    ? profile.heroImageUrl
+                    : '/abr_headshot.jpg'
+                }
                 alt={`${profile.fullName} Headshot`}
                 fallbackTitle={profile.fullName}
                 className="w-full h-full object-cover object-top"
@@ -203,7 +205,7 @@ export function PortfolioView({ onOpenBlog: _onOpenBlog, onOpenPost: _onOpenPost
           </FlipText>
           <FlipText delay={0.1}>
             <p className="text-sm sm:text-base text-[var(--muted)]">
-              {profile.aboutSubtitle || 'Currently pursuing a BS in Computer Science, enrolling Fall 2026.'}
+              {profile.aboutSubtitle || 'BS in Computer Science (BSCS) at GU Tech (2026 – 2030 Expected).'}
             </p>
           </FlipText>
           <motion.div
@@ -232,15 +234,18 @@ export function PortfolioView({ onOpenBlog: _onOpenBlog, onOpenPost: _onOpenPost
               : [
                   {
                     title: 'Architecture',
-                    description: 'Designing clean, modular codebases for web applications, backend AI scripts, and responsive systems.',
+                    description:
+                      'Designing clean, modular codebases for web applications, backend AI scripts, and multi-tenant platforms.',
                   },
                   {
                     title: 'Innovation',
-                    description: 'Using modern AI tools, custom prompts, and performance tuning to deliver products faster.',
+                    description:
+                      'Using modern AI tools, Gemini API workflows, custom prompts, and performance tuning to deliver products faster.',
                   },
                   {
                     title: 'Execution',
-                    description: 'Carrying ideas from concept to launch — from business web platforms to interactive media.',
+                    description:
+                      'Carrying ideas from concept to launch — from business web platforms to print-ready interactive canvases.',
                   },
                 ]
             ).map((pillar, idx) => (

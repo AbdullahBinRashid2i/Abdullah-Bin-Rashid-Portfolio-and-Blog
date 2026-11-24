@@ -308,17 +308,16 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
-          {!isSeededInFirestore && (
-            <button
-              type="button"
-              disabled={seeding}
-              onClick={() => void seedDefaultContent()}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-[var(--border-strong)] bg-[var(--surface)] text-xs font-medium text-[var(--text)] hover:border-[var(--accent)] transition-colors whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50"
-            >
-              <Database className="w-3.5 h-3.5" />
-              {seeding ? 'Seeding...' : 'Seed Starter Data'}
-            </button>
-          )}
+          <button
+            type="button"
+            disabled={seeding}
+            onClick={() => void seedDefaultContent()}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-[var(--border-strong)] bg-[var(--surface)] text-xs font-medium text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50"
+            title="Syncs latest resume specifications, headshot, and verified projects to Firestore"
+          >
+            <Database className="w-3.5 h-3.5 text-[var(--accent)]" />
+            {seeding ? 'Syncing...' : 'Sync Resume Data to Firestore'}
+          </button>
           <button
             type="button"
             onClick={onExitAdmin}
