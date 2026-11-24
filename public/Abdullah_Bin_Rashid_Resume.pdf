@@ -1,9 +1,8 @@
 %PDF-1.4
-%
 1 0 obj
 << /Title (Abdullah Bin Rashid - Resume)
    /Author (Abdullah Bin Rashid)
-   /Creator (Portfolio System) >>
+   /Creator (LaTeX to PDF) >>
 endobj
 2 0 obj
 << /Type /Catalog
@@ -19,43 +18,191 @@ endobj
    /Parent 3 0 R
    /MediaBox [0 0 612 792]
    /Contents 5 0 R
-   /Resources << /Font << /F1 6 0 R >> >> >>
+   /Resources << /Font << 
+     /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+     /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+     /F3 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique >>
+   >> >> >>
 endobj
 5 0 obj
-<< /Length 260 >>
+<< /Length 6122 >>
 stream
 BT
-/F1 22 Tf
-50 720 Td
-(Abdullah Bin Rashid) Tj
-/F1 12 Tf
-0 -26 Td
-(Full-Stack Engineering | AI Systems | Game Development) Tj
-0 -20 Td
-(Karachi, Pakistan | abdullahbinrashid0@gmail.com) Tj
-0 -36 Td
-(Resume document placeholder. Upload your custom PDF in Admin CMS.) Tj
+0.08 0.08 0.1 rg
+/F2 19 Tf
+1 0 0 1 217.6 760 Tm (Abdullah Bin Rashid) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 160.5 738 Tm (Karachi, Pakistan | +92 332 8288587 | abdullahbinrashid0@gmail.com) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36.0 725 Tm (Portfolio: portfolio-and-blog-kappa.vercel.app | GitHub: github.com/AbdullahBinRashid2i | LinkedIn: linkedin.com/in/abdullah-bin-rashid-) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 711 Tm () Tj
+ET
+0.12 0.23 0.37 RG
+1 w
+36 700 m 576 700 l S
+BT
+0.12 0.23 0.37 rg
+/F2 10.5 Tf
+1 0 0 1 36 703 Tm (SUMMARY) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 688 Tm (First-semester Computer Science student and full-stack web developer with a background in graphic design.) Tj
+1 0 0 1 36 676 Tm (Builds React, Next.js, Node.js, and Python applications that solve real-world student and business problems,) Tj
+1 0 0 1 36 664 Tm (practices data structures and algorithms on LeetCode, and looks for opportunities at technical companies and) Tj
+1 0 0 1 36 652 Tm (in freelancing.) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 640 Tm () Tj
+ET
+0.12 0.23 0.37 RG
+1 w
+36 631 m 576 631 l S
+BT
+0.12 0.23 0.37 rg
+/F2 10.5 Tf
+1 0 0 1 36 634 Tm (EDUCATION) Tj
+0.08 0.08 0.1 rg
+/F2 9.5 Tf
+1 0 0 1 36 619 Tm (GU Tech                                                                                                  2026 - 2030 \(Expected\)) Tj
+0.08 0.08 0.1 rg
+/F3 9 Tf
+1 0 0 1 36 606 Tm (Bachelor of Science in Computer Science \(BSCS\)                                                      Karachi, Pakistan) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 594 Tm (  * Currently in first semester) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 583 Tm (  * Relevant coursework: Programming Fundamentals, Calculus, Functional English) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 572 Tm () Tj
+ET
+0.12 0.23 0.37 RG
+1 w
+36 563 m 576 563 l S
+BT
+0.12 0.23 0.37 rg
+/F2 10.5 Tf
+1 0 0 1 36 566 Tm (PROJECTS) Tj
+0.08 0.08 0.1 rg
+/F2 9.5 Tf
+1 0 0 1 36 551 Tm (DynamicSaaS - Multi-Tenant Restaurant Platform                           Next.js, Express, MongoDB Atlas, Socket.io) Tj
+0.08 0.08 0.1 rg
+/F1 8.8 Tf
+1 0 0 1 36 538 Tm (  * Built a single-codebase multi-tenant restaurant SaaS with dynamic brand themes and a 12-switch feature engine per storefront) Tj
+0.08 0.08 0.1 rg
+/F1 8.8 Tf
+1 0 0 1 36 526.5 Tm (  * Engineered role-based access control with dedicated portals for Super Admins, Restaurant Admins, and live delivery dispatch) Tj
+0.08 0.08 0.1 rg
+/F2 9.5 Tf
+1 0 0 1 36 515 Tm (TaskScaffold AI                                                React, Node.js, Firebase, Google Classroom API, Gemini API) Tj
+0.08 0.08 0.1 rg
+/F1 8.8 Tf
+1 0 0 1 36 502 Tm (  * Built and deployed an AI study assistant that integrates with Google Classroom OAuth/API to import assignments) Tj
+0.08 0.08 0.1 rg
+/F1 8.8 Tf
+1 0 0 1 36 490.5 Tm (    and break them down into 5-minute micro-steps with starter code) Tj
+0.08 0.08 0.1 rg
+/F1 8.8 Tf
+1 0 0 1 36 479 Tm (  * Implemented a daily review system to help students reinforce concepts learned in class) Tj
+0.08 0.08 0.1 rg
+/F2 9.5 Tf
+1 0 0 1 36 467.5 Tm (GUTech LMS - Campus Learning Portal                                                              React, Node.js, Firebase) Tj
+0.08 0.08 0.1 rg
+/F1 8.8 Tf
+1 0 0 1 36 454.5 Tm (  * Built a student learning workspace featuring course progress tracking, study session analytics, assignments,) Tj
+0.08 0.08 0.1 rg
+/F1 8.8 Tf
+1 0 0 1 36 443 Tm (    quizzes, and a built-in AI study tutor) Tj
+0.08 0.08 0.1 rg
+/F2 9.5 Tf
+1 0 0 1 36 431.5 Tm (Developer Portfolio & Technical CMS Blog                                                    Next.js, React, Tailwind CSS) Tj
+0.08 0.08 0.1 rg
+/F1 8.8 Tf
+1 0 0 1 36 418.5 Tm (  * Designed and built personal portfolio and technical blog featuring custom admin CMS dashboard for publishing articles) Tj
+0.08 0.08 0.1 rg
+/F2 9.5 Tf
+1 0 0 1 36 407 Tm (Printable Design Platform                    React, Fabric.js, Node.js, Express, MongoDB/Supabase, Gemini API) Tj
+0.08 0.08 0.1 rg
+/F1 8.8 Tf
+1 0 0 1 36 394 Tm (  * Building web app where users customize and download print-ready designs such as packaging box templates) Tj
+0.08 0.08 0.1 rg
+/F1 8.8 Tf
+1 0 0 1 36 382.5 Tm (  * Created in-browser editing canvas using Fabric.js, with box templates stored as SVG files) Tj
+0.08 0.08 0.1 rg
+/F1 8.8 Tf
+1 0 0 1 36 371 Tm (  * Integrating Google Gemini API for AI-generated images; deploying on Vercel \(frontend\) and Render \(backend\)) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 359.5 Tm () Tj
+ET
+0.12 0.23 0.37 RG
+1 w
+36 350.5 m 576 350.5 l S
+BT
+0.12 0.23 0.37 rg
+/F2 10.5 Tf
+1 0 0 1 36 353.5 Tm (EXPERIENCE) Tj
+0.08 0.08 0.1 rg
+/F2 9.5 Tf
+1 0 0 1 36 338.5 Tm (Graphic Designer                                                                                        Jan 2025 - Present) Tj
+0.08 0.08 0.1 rg
+/F3 9 Tf
+1 0 0 1 36 325.5 Tm (Creative Studio                                                                                              Karachi, Pakistan) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 313.5 Tm (  * Designed logos, flyers, social media posts, and packaging layouts for local business clients) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 302 Tm (  * Prepared print-ready files and worked with clients on revisions to meet deadlines) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 290.5 Tm () Tj
+ET
+0.12 0.23 0.37 RG
+1 w
+36 281.5 m 576 281.5 l S
+BT
+0.12 0.23 0.37 rg
+/F2 10.5 Tf
+1 0 0 1 36 284.5 Tm (SKILLS) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 269.5 Tm (Web Development: React, Next.js, HTML, CSS, JavaScript, Node.js, Express, Socket.io) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 257.5 Tm (Databases & Cloud: Firebase, MongoDB Atlas, Supabase, Vercel, Render) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 245.5 Tm (Libraries & APIs: Fabric.js, Google Gemini API, Google Classroom API) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 233.5 Tm (Problem Solving: Data structures and algorithms \(LeetCode\)) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 221.5 Tm (Design: Graphic design, SVG, Adobe Photoshop, Adobe Illustrator, Canva) Tj
+0.08 0.08 0.1 rg
+/F1 9 Tf
+1 0 0 1 36 209.5 Tm (Languages: English \(Professional\), Urdu \(Native\)) Tj
 ET
 endstream
 endobj
-6 0 obj
-<< /Type /Font
-   /Subtype /Type1
-   /BaseFont /Helvetica >>
-endobj
 xref
-0 7
+0 6
 0000000000 65535 f 
-0000000015 00000 n 
+0000000009 00000 n 
 0000000125 00000 n 
 0000000174 00000 n 
 0000000233 00000 n 
-0000000361 00000 n 
-0000000673 00000 n 
+0000000490 00000 n 
 trailer
-<< /Size 7
+<< /Size 6
    /Root 2 0 R
    /Info 1 0 R >>
 startxref
-754
+6682
 %%EOF

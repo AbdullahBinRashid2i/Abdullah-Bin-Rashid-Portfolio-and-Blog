@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Abdullah Bin Rashid - Resume</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 0.55in;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 10pt;
+      line-height: 1.35;
+      color: #111827;
+      background: #ffffff;
+      padding: 0.55in;
+    }
+    a {
+      color: #1F3A5F;
+      text-decoration: none;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .name {
+      font-size: 20pt;
+      font-weight: bold;
+      color: #111827;
+      margin-bottom: 4px;
+    }
+    .contact-line {
+      font-size: 9.5pt;
+      color: #374151;
+      margin-bottom: 3px;
+    }
+    .links-line {
+      font-size: 9.5pt;
+      color: #1F3A5F;
+    }
+    .links-line a {
+      font-weight: 500;
+    }
+    .section-title {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #1F3A5F;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      border-bottom: 1.2px solid #1F3A5F;
+      padding-bottom: 2px;
+    }
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-top: 4px;
+    }
+    .entry-title {
+      font-weight: bold;
+      color: #111827;
+    }
+    .entry-date {
+      font-size: 9.5pt;
+      color: #4B5563;
+    }
+    .entry-sub {
+      display: flex;
+      justify-content: space-between;
+      font-style: italic;
+      color: #4B5563;
+      font-size: 9.5pt;
+      margin-bottom: 3px;
+    }
+    ul {
+      margin-left: 18px;
+      margin-top: 2px;
+      margin-bottom: 5px;
+    }
+    li {
+      margin-bottom: 2px;
+      color: #1f2937;
+    }
+    .skills-list {
+      list-style: none;
+      margin-left: 0;
+      margin-top: 4px;
+    }
+    .skills-list li {
+      margin-bottom: 3px;
+      line-height: 1.4;
+    }
+    .skills-list strong {
+      color: #111827;
+    }
+    .project-item {
+      margin-bottom: 6px;
+    }
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .project-tech {
+      font-style: italic;
+      color: #4B5563;
+      font-size: 9pt;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="name">Abdullah Bin Rashid</div>
+    <div class="contact-line">
+      Karachi, Pakistan &nbsp;|&nbsp; +92 332 8288587 &nbsp;|&nbsp;
+      <a href="mailto:abdullahbinrashid0@gmail.com">abdullahbinrashid0@gmail.com</a>
+    </div>
+    <div class="links-line">
+      <a href="https://portfolio-and-blog-kappa.vercel.app" target="_blank">Portfolio</a> &nbsp;|&nbsp;
+      <a href="https://github.com/AbdullahBinRashid2i" target="_blank">GitHub</a> &nbsp;|&nbsp;
+      <a href="https://www.linkedin.com/in/abdullah-bin-rashid-/" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="section-title">Summary</div>
+  <p style="margin-top: 4px; margin-bottom: 6px; text-align: justify;">
+    First-semester Computer Science student and full-stack web developer with a background in graphic design. Builds React, Next.js, Node.js, and Python applications that solve real-world student and business problems, practices data structures and algorithms on LeetCode, and looks for opportunities at technical companies and in freelancing.
+  </p>
+
+  <!-- Education -->
+  <div class="section-title">Education</div>
+  <div class="entry-header">
+    <span class="entry-title">GU Tech</span>
+    <span class="entry-date">2026 – 2030 (Expected)</span>
+  </div>
+  <div class="entry-sub">
+    <span>Bachelor of Science in Computer Science (BSCS)</span>
+    <span>Karachi, Pakistan</span>
+  </div>
+  <ul>
+    <li>Currently in first semester</li>
+    <li>Relevant coursework: Programming Fundamentals, Calculus, Functional English</li>
+  </ul>
+
+  <!-- Projects -->
+  <div class="section-title">Projects</div>
+
+  <div class="project-item">
+    <div class="project-header">
+      <div>
+        <strong>DynamicSaaS — Multi-Tenant Restaurant Platform</strong>
+        (<a href="https://multi-tenant-restaurant-saas.vercel.app" target="_blank">Live Demo</a> |
+        <a href="https://github.com/AbdullahBinRashid2i/multi-tenant-restaurant-saas" target="_blank">GitHub</a>)
+      </div>
+      <div class="project-tech">Next.js, Express, MongoDB Atlas, Socket.io</div>
+    </div>
+    <ul>
+      <li>Built a single-codebase multi-tenant restaurant SaaS with dynamic brand themes and a 12-switch feature engine per storefront</li>
+      <li>Engineered role-based access control with dedicated portals for Super Admins, Restaurant Admins, and live delivery dispatch</li>
+    </ul>
+  </div>
+
+  <div class="project-item">
+    <div class="project-header">
+      <div>
+        <strong>TaskScaffold AI</strong>
+        (<a href="https://assignment-helper-eosin.vercel.app" target="_blank">Live Demo</a> |
+        <a href="https://github.com/AbdullahBinRashid2i/assignment-helper" target="_blank">GitHub</a>)
+      </div>
+      <div class="project-tech">React, Node.js, Firebase, Google Classroom API, Gemini API</div>
+    </div>
+    <ul>
+      <li>Built and deployed an AI study assistant that integrates with Google Classroom OAuth/API to import assignments and break them down into 5-minute micro-steps with starter code</li>
+      <li>Implemented a daily review system to help students reinforce concepts learned in class</li>
+    </ul>
+  </div>
+
+  <div class="project-item">
+    <div class="project-header">
+      <div>
+        <strong>GUTech LMS — Campus Learning Portal</strong>
+        (<a href="https://gutech-lms-portal-two.vercel.app" target="_blank">Live Demo</a> |
+        <a href="https://github.com/AbdullahBinRashid2i/LMS" target="_blank">GitHub</a>)
+      </div>
+      <div class="project-tech">React, Node.js, Firebase</div>
+    </div>
+    <ul>
+      <li>Built a student learning workspace featuring course progress tracking, study session analytics, assignments, quizzes, and a built-in AI study tutor</li>
+    </ul>
+  </div>
+
+  <div class="project-item">
+    <div class="project-header">
+      <div>
+        <strong>Developer Portfolio &amp; CMS Blog</strong>
+        (<a href="https://portfolio-and-blog-kappa.vercel.app" target="_blank">Live Demo</a> |
+        <a href="https://github.com/AbdullahBinRashid2i/Abdullah-Bin-Rashid-Portfolio-and-Blog" target="_blank">GitHub</a>)
+      </div>
+      <div class="project-tech">Next.js, React, Tailwind CSS</div>
+    </div>
+    <ul>
+      <li>Designed and built a personal portfolio and technical blog featuring a custom admin CMS dashboard for publishing and managing articles</li>
+    </ul>
+  </div>
+
+  <div class="project-item">
+    <div class="project-header">
+      <div>
+        <strong>Printable Design Platform</strong>
+      </div>
+      <div class="project-tech">React, Fabric.js, Node.js, Express, MongoDB/Supabase, Gemini API</div>
+    </div>
+    <ul>
+      <li>Building a web app where users customize and download print-ready designs such as packaging box templates</li>
+      <li>Created an in-browser editing canvas using Fabric.js, with box templates stored as SVG files</li>
+      <li>Integrating the Google Gemini API for AI-generated images; deploying on Vercel (frontend) and Render (backend)</li>
+    </ul>
+  </div>
+
+  <!-- Experience -->
+  <div class="section-title">Experience</div>
+  <div class="entry-header">
+    <span class="entry-title">Graphic Designer</span>
+    <span class="entry-date">Jan 2025 – Present</span>
+  </div>
+  <div class="entry-sub">
+    <span>Creative Studio</span>
+    <span>Karachi, Pakistan</span>
+  </div>
+  <ul>
+    <li>Designed logos, flyers, social media posts, and packaging layouts for local business clients</li>
+    <li>Prepared print-ready files and worked with clients on revisions to meet deadlines</li>
+  </ul>
+
+  <!-- Skills -->
+  <div class="section-title">Skills</div>
+  <ul class="skills-list">
+    <li><strong>Web Development:</strong> React, Next.js, HTML, CSS, JavaScript, Node.js, Express, Socket.io</li>
+    <li><strong>Databases &amp; Cloud:</strong> Firebase, MongoDB Atlas, Supabase, Vercel, Render</li>
+    <li><strong>Libraries &amp; APIs:</strong> Fabric.js, Google Gemini API, Google Classroom API</li>
+    <li><strong>Problem Solving:</strong> Data structures and algorithms (LeetCode)</li>
+    <li><strong>Design:</strong> Graphic design, SVG, Adobe Photoshop, Adobe Illustrator, Canva</li>
+    <li><strong>Languages:</strong> English (Professional), Urdu (Native)</li>
+  </ul>
+
+</body>
+</html>
