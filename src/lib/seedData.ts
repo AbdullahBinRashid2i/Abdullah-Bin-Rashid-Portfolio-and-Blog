@@ -6,7 +6,9 @@ export const DEFAULT_PROFILE: SiteProfile = {
   tagline: 'builds things at the bench — software, systems, and scenes.',
   location: 'Karachi, Pakistan',
   bio: "First-semester Computer Science student and full-stack web developer with a background in graphic design. Builds React, Next.js, Node.js, and Python applications that solve real-world student and business problems, practices data structures and algorithms on LeetCode, and looks for opportunities at technical companies and in freelancing.",
-  heroImageUrl: '/src/assets/images/abr_headshot.jpg',
+  heroImageUrl: '/abr_headshot.jpg',
+  heroEyebrow: 'Full-Stack Developer & Graphic Designer',
+  showHeroImage: true,
   resumeUrl: '/Abdullah_Bin_Rashid_Resume.pdf',
   skills: [
     'React',
@@ -48,6 +50,35 @@ export const DEFAULT_PROFILE: SiteProfile = {
       description: 'Carrying ideas from concept to launch — from business web platforms to print-ready interactive canvases.',
     },
   ],
+  timelineEntries: [
+    {
+      period: '2026 – 2030',
+      title: 'BS in Computer Science (BSCS)',
+      org: 'GU Tech · Karachi',
+      detail: 'Foundations in algorithms, data structures (LeetCode DSA), systems architecture, and campus software initiatives.',
+    },
+    {
+      period: 'Present',
+      title: 'Full-Stack & AI Product Engineering',
+      org: 'Independent & Freelance',
+      detail: 'Shipping multi-tenant SaaS platforms, Socket.io real-time dispatch tools, and Gemini AI study/design workflows.',
+    },
+    {
+      period: 'Background',
+      title: 'Graphic Design & Visual Identity',
+      org: 'Print, Typography & Canvas Systems',
+      detail: 'Brand systems, packaging templates, Photoshop & Illustrator craft — bridging visual precision directly into UI code.',
+    },
+  ],
+  inquiryTopics: [
+    'Full-Stack Web App',
+    'AI / Gemini Workflow',
+    'UI & Brand Design',
+    'Internship / Role',
+    'SaaS MVP',
+    'Technical Collaboration',
+  ],
+  footerWordmark: 'abdullah.binrashid',
   updatedAt: new Date('2026-11-24T12:00:00Z'),
 };
 

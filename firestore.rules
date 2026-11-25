@@ -65,11 +65,16 @@ service cloud.firestore {
           'bio',
           'location',
           'heroImageUrl',
+          'heroEyebrow',
+          'showHeroImage',
           'skills',
           'socialLinks',
           'updatedAt',
           'aboutSubtitle',
           'aboutPillars',
+          'timelineEntries',
+          'inquiryTopics',
+          'footerWordmark',
           'resumeUrl'
         ])
         && isValidBoundedString(data.fullName, 1, 120)
@@ -77,11 +82,16 @@ service cloud.firestore {
         && isValidBoundedString(data.bio, 1, 3000)
         && isValidBoundedString(data.location, 1, 120)
         && isValidBoundedString(data.heroImageUrl, 0, 1000)
+        && (!('heroEyebrow' in data) || isValidBoundedString(data.heroEyebrow, 0, 120))
+        && (!('showHeroImage' in data) || data.showHeroImage is bool)
         && (!('resumeUrl' in data) || isValidBoundedString(data.resumeUrl, 0, 1000))
         && isValidStringList(data.skills, 40)
         && isValidSocialLinks(data.socialLinks)
         && (!('aboutSubtitle' in data) || isValidBoundedString(data.aboutSubtitle, 0, 300))
         && (!('aboutPillars' in data) || data.aboutPillars is list)
+        && (!('timelineEntries' in data) || data.timelineEntries is list)
+        && (!('inquiryTopics' in data) || isValidStringList(data.inquiryTopics, 10))
+        && (!('footerWordmark' in data) || isValidBoundedString(data.footerWordmark, 0, 80))
         && data.updatedAt == request.time;
     }
 
@@ -188,8 +198,16 @@ service cloud.firestore {
           'bio',
           'location',
           'heroImageUrl',
+          'heroEyebrow',
+          'showHeroImage',
+          'resumeUrl',
           'skills',
           'socialLinks',
+          'aboutSubtitle',
+          'aboutPillars',
+          'timelineEntries',
+          'inquiryTopics',
+          'footerWordmark',
           'updatedAt'
         ]);
       allow delete: if false;

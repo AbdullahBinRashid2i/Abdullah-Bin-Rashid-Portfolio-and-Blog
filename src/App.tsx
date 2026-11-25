@@ -4,8 +4,10 @@ import { AdminDashboard } from './components/AdminDashboard';
 import { BlogView } from './components/BlogView';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Footer } from './components/Footer';
+import { LoadingScreen } from './components/LoadingScreen';
 import { Navbar } from './components/Navbar';
 import { PortfolioView } from './components/PortfolioView';
+import { SectionRail } from './components/SectionRail';
 import { ThemeSwitcher } from './components/ThemeSwitcher';
 import { ToastContainer } from './components/ToastContainer';
 import { DataProvider, useData } from './context/DataContext';
@@ -13,7 +15,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { AppView } from './types';
 
 function AppShell() {
-  const { isAdmin, signInAsAdmin, authError, clearAuthError } = useData();
+  const { isAdmin, signInAsAdmin, authError, clearAuthError, loadingData, profile } = useData();
   const [view, setView] = useState<AppView>('portfolio');
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
 
@@ -71,11 +73,13 @@ function AppShell() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text)]">
+      <LoadingScreen backendReady={!loadingData} fullName={profile.fullName} />
       <Navbar
         view={view}
         onNavigateView={handleNavigateView}
         onJumpSection={handleJumpSection}
       />
+      {view === 'portfolio' && <SectionRail />}
 
       {authError && (
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 mt-4">

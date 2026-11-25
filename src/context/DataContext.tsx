@@ -158,9 +158,12 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
           // Safeguards against stale or incomplete Firestore documents overriding verified resume profile
           const rawHero = String(data.heroImageUrl || '').trim();
           const heroImageUrl =
-            !rawHero || rawHero.includes('hero_studio_desk')
+            !rawHero || rawHero.includes('hero_studio_desk') || rawHero === '/src/assets/images/abr_headshot.jpg'
               ? DEFAULT_PROFILE.heroImageUrl
               : rawHero;
+
+          const heroEyebrow = String(data.heroEyebrow || DEFAULT_PROFILE.heroEyebrow || '');
+          const showHeroImage = data.showHeroImage !== false;
 
           const rawResume = String(data.resumeUrl || '').trim();
           const resumeUrl =
@@ -188,6 +191,25 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
                 }))
               : DEFAULT_PROFILE.aboutPillars;
 
+          const timelineEntries =
+            Array.isArray(data.timelineEntries) && data.timelineEntries.length > 0
+              ? data.timelineEntries.map((t) => ({
+                  period: String(t.period || ''),
+                  title: String(t.title || ''),
+                  org: String(t.org || ''),
+                  detail: String(t.detail || ''),
+                }))
+              : DEFAULT_PROFILE.timelineEntries;
+
+          const inquiryTopics =
+            Array.isArray(data.inquiryTopics) && data.inquiryTopics.length > 0
+              ? data.inquiryTopics.map(String)
+              : DEFAULT_PROFILE.inquiryTopics;
+
+          const footerWordmark = String(
+            data.footerWordmark || DEFAULT_PROFILE.footerWordmark || ''
+          );
+
           const rawGithub = String(data.socialLinks?.github || '').trim();
           const github =
             !rawGithub || rawGithub.endsWith('/abdullahbinrashid')
@@ -211,6 +233,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
             bio,
             location: String(data.location || DEFAULT_PROFILE.location),
             heroImageUrl,
+            heroEyebrow,
+            showHeroImage,
             resumeUrl,
             skills,
             socialLinks: {
@@ -220,6 +244,9 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
             },
             aboutSubtitle,
             aboutPillars,
+            timelineEntries,
+            inquiryTopics,
+            footerWordmark,
             updatedAt: toDate(data.updatedAt),
           });
         } else {

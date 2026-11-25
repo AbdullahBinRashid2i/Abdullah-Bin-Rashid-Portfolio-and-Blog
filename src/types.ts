@@ -1,4 +1,4 @@
-export type ThemeId = 'charcoal' | 'ivory' | 'monochrome' | 'slate';
+export type ThemeId = 'charcoal' | 'forest';
 
 export type AppView = 'portfolio' | 'blog' | 'post-detail' | 'admin';
 
@@ -19,17 +19,29 @@ export interface AboutPillar {
   description: string;
 }
 
+export interface TimelineEntry {
+  period: string;
+  title: string;
+  org: string;
+  detail: string;
+}
+
 export interface SiteProfile {
   fullName: string;
   tagline: string;
   bio: string;
   location: string;
   heroImageUrl: string;
+  heroEyebrow?: string;
+  showHeroImage?: boolean;
   resumeUrl?: string;
   skills: string[];
   socialLinks: SocialLinks;
   aboutSubtitle?: string;
   aboutPillars?: AboutPillar[];
+  timelineEntries?: TimelineEntry[];
+  inquiryTopics?: string[];
+  footerWordmark?: string;
   updatedAt?: Date | null;
 }
 

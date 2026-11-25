@@ -18,25 +18,11 @@ export const THEMES: ThemeDefinition[] = [
     swatches: ['#111113', '#27272A', '#E5A93C'],
   },
   {
-    id: 'ivory',
-    name: 'Editorial Ivory',
-    shortName: 'Ivory',
-    description: 'Warm archival paper with crisp cobalt accent',
-    swatches: ['#F8F7F4', '#E4E2DA', '#2563EB'],
-  },
-  {
-    id: 'monochrome',
-    name: 'Swiss Monochrome',
-    shortName: 'Mono',
-    description: 'High-contrast jet black and stark white grid',
-    swatches: ['#050505', '#262626', '#FFFFFF'],
-  },
-  {
-    id: 'slate',
-    name: 'Midnight Slate',
-    shortName: 'Slate',
-    description: 'Cool technical slate with sky blue highlights',
-    swatches: ['#0B111E', '#22304B', '#38BDF8'],
+    id: 'forest',
+    name: 'Deep Forest',
+    shortName: 'Forest',
+    description: 'Architectural moss green with warm copper',
+    swatches: ['#112218', '#1B3426', '#C99378'],
   },
 ];
 

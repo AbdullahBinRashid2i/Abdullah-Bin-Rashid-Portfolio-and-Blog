@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FileDown, Menu, X } from 'lucide-react';
+import { motion, useScroll, useSpring } from 'motion/react';
 import { useData } from '../context/DataContext';
 import { AppView } from '../types';
 
@@ -19,6 +20,12 @@ const NAV_ITEMS = [
 export function Navbar({ view, onNavigateView, onJumpSection }: NavbarProps) {
   const { profile, isAdmin, signOutAdmin } = useData();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 220,
+    damping: 32,
+    restDelta: 0.001,
+  });
 
   const isBlogOrPost = view === 'blog' || view === 'post-detail';
   const primaryLabel = isBlogOrPost || view === 'admin' ? 'Portfolio' : 'Blog';
@@ -156,6 +163,13 @@ export function Navbar({ view, onNavigateView, onJumpSection }: NavbarProps) {
             </div>
           </div>
         )}
+
+        {/* Architectural Scroll Progress Hairline */}
+        <motion.div
+          aria-hidden="true"
+          style={{ scaleX, transformOrigin: '0% 50%' }}
+          className="h-[2px] w-full bg-[var(--accent)]"
+        />
       </header>
     </>
   );

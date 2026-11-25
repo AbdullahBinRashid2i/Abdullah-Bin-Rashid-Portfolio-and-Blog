@@ -116,6 +116,8 @@ export function sanitizeProfileInput(input: SiteProfile) {
     bio,
     location,
     heroImageUrl: clampString(input.heroImageUrl || '', LIMITS.url),
+    heroEyebrow: clampString(input.heroEyebrow || '', 120),
+    showHeroImage: input.showHeroImage !== false,
     resumeUrl: clampString(input.resumeUrl || '', LIMITS.url),
     skills: sanitizeStringList(input.skills || [], LIMITS.skillsMax),
     socialLinks: {
@@ -130,6 +132,19 @@ export function sanitizeProfileInput(input: SiteProfile) {
           description: clampString(p.description || '', 400),
         }))
       : [],
+    timelineEntries: Array.isArray(input.timelineEntries)
+      ? input.timelineEntries
+          .slice(0, 10)
+          .filter((t) => t.title?.trim() || t.period?.trim())
+          .map((t) => ({
+            period: clampString(t.period || '', 60),
+            title: clampString(t.title || '', 120),
+            org: clampString(t.org || '', 120),
+            detail: clampString(t.detail || '', 400),
+          }))
+      : [],
+    inquiryTopics: sanitizeStringList(input.inquiryTopics || [], 10),
+    footerWordmark: clampString(input.footerWordmark || '', 80),
   };
 }
 

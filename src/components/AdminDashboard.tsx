@@ -81,6 +81,7 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
   // --- Tab 1: Profile & Bio State ---
   const [profileForm, setProfileForm] = useState<SiteProfile>(profile);
   const [newSkillInput, setNewSkillInput] = useState('');
+  const [newTopicInput, setNewTopicInput] = useState('');
   const [savingProfile, setSavingProfile] = useState(false);
 
   useEffect(() => {
@@ -123,6 +124,29 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
     setProfileForm((prev) => ({
       ...prev,
       skills: prev.skills.filter((s) => s !== skill),
+    }));
+  };
+
+  const handleAddTopic = () => {
+    const cleaned = newTopicInput.trim().slice(0, LIMITS.itemMaxLen);
+    if (!cleaned) return;
+    const current = profileForm.inquiryTopics || [];
+    if (current.length >= 10) {
+      addToast('error', 'Maximum 10 inquiry topics allowed.');
+      return;
+    }
+    if (current.some((t) => t.toLowerCase() === cleaned.toLowerCase())) {
+      setNewTopicInput('');
+      return;
+    }
+    setProfileForm((prev) => ({ ...prev, inquiryTopics: [...current, cleaned] }));
+    setNewTopicInput('');
+  };
+
+  const handleRemoveTopic = (topic: string) => {
+    setProfileForm((prev) => ({
+      ...prev,
+      inquiryTopics: (prev.inquiryTopics || []).filter((t) => t !== topic),
     }));
   };
 
@@ -436,7 +460,7 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
 
               <div>
                 <label htmlFor="profile-hero-image" className={labelClass}>
-                  Hero Visual URL
+                  Hero Portrait URL
                 </label>
                 <input
                   id="profile-hero-image"
@@ -446,7 +470,35 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
                   onChange={(e) =>
                     setProfileForm((p) => ({ ...p, heroImageUrl: e.target.value }))
                   }
-                  placeholder="/src/assets/images/... or https://..."
+                  placeholder="/abr_headshot.jpg or https://..."
+                  className={inputClass}
+                />
+                <label className="mt-2 inline-flex items-center gap-2 text-xs text-[var(--muted)] cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={profileForm.showHeroImage !== false}
+                    onChange={(e) =>
+                      setProfileForm((p) => ({ ...p, showHeroImage: e.target.checked }))
+                    }
+                    className="accent-[var(--accent)] rounded"
+                  />
+                  <span>Display portrait in Hero section</span>
+                </label>
+              </div>
+
+              <div>
+                <label htmlFor="profile-hero-eyebrow" className={labelClass}>
+                  Hero Eyebrow Role
+                </label>
+                <input
+                  id="profile-hero-eyebrow"
+                  type="text"
+                  maxLength={120}
+                  value={profileForm.heroEyebrow ?? ''}
+                  onChange={(e) =>
+                    setProfileForm((p) => ({ ...p, heroEyebrow: e.target.value }))
+                  }
+                  placeholder="Full-Stack Developer & Graphic Designer"
                   className={inputClass}
                 />
               </div>
@@ -464,6 +516,23 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
                     setProfileForm((p) => ({ ...p, resumeUrl: e.target.value }))
                   }
                   placeholder="/Abdullah_Bin_Rashid_Resume.pdf or https://drive.google.com/..."
+                  className={inputClass}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="profile-footer-wordmark" className={labelClass}>
+                  Footer Monumental Wordmark
+                </label>
+                <input
+                  id="profile-footer-wordmark"
+                  type="text"
+                  maxLength={80}
+                  value={profileForm.footerWordmark ?? ''}
+                  onChange={(e) =>
+                    setProfileForm((p) => ({ ...p, footerWordmark: e.target.value }))
+                  }
+                  placeholder="abdullah.binrashid"
                   className={inputClass}
                 />
               </div>
@@ -580,6 +649,105 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
                   })}
                 </div>
               </div>
+
+              {/* Academic & Craft Timeline Editor */}
+              <div className="pt-2 border-t border-[var(--border)]">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs font-medium text-[var(--muted)]">
+                    Academic &amp; Craft Timeline Entries
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setProfileForm((p) => ({
+                        ...p,
+                        timelineEntries: [
+                          ...(p.timelineEntries || []),
+                          { period: '2026', title: '', org: '', detail: '' },
+                        ].slice(0, 10),
+                      }))
+                    }
+                    className="inline-flex items-center gap-1 text-xs font-medium text-[var(--accent)] hover:underline cursor-pointer"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    Add Entry
+                  </button>
+                </div>
+                <div className="space-y-3">
+                  {(profileForm.timelineEntries || []).map((entry, idx) => (
+                    <div
+                      key={idx}
+                      className="p-3 rounded-lg border border-[var(--border)] bg-[var(--surface)] space-y-2.5"
+                    >
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <input
+                          type="text"
+                          maxLength={60}
+                          value={entry.period}
+                          onChange={(e) => {
+                            const updated = [...(profileForm.timelineEntries || [])];
+                            updated[idx] = { ...entry, period: e.target.value };
+                            setProfileForm((p) => ({ ...p, timelineEntries: updated }));
+                          }}
+                          placeholder="Period (e.g. 2026 – 2030)"
+                          className={inputClass}
+                        />
+                        <input
+                          type="text"
+                          maxLength={120}
+                          value={entry.title}
+                          onChange={(e) => {
+                            const updated = [...(profileForm.timelineEntries || [])];
+                            updated[idx] = { ...entry, title: e.target.value };
+                            setProfileForm((p) => ({ ...p, timelineEntries: updated }));
+                          }}
+                          placeholder="Role / Degree Title"
+                          className={inputClass}
+                        />
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            maxLength={120}
+                            value={entry.org}
+                            onChange={(e) => {
+                              const updated = [...(profileForm.timelineEntries || [])];
+                              updated[idx] = { ...entry, org: e.target.value };
+                              setProfileForm((p) => ({ ...p, timelineEntries: updated }));
+                            }}
+                            placeholder="Organization / Campus"
+                            className={inputClass}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const updated = (profileForm.timelineEntries || []).filter(
+                                (_, i) => i !== idx
+                              );
+                              setProfileForm((p) => ({ ...p, timelineEntries: updated }));
+                            }}
+                            aria-label="Remove timeline entry"
+                            className="px-2.5 rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--danger)] hover:border-[var(--danger)] transition-colors cursor-pointer shrink-0"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                      <input
+                        type="text"
+                        maxLength={400}
+                        value={entry.detail}
+                        onChange={(e) => {
+                          const updated = [...(profileForm.timelineEntries || [])];
+                          updated[idx] = { ...entry, detail: e.target.value };
+                          setProfileForm((p) => ({ ...p, timelineEntries: updated }));
+                        }}
+                        placeholder="Short milestone summary..."
+                        className={inputClass}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
 
             {/* Interactive Skills Editor */}
@@ -630,6 +798,63 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
                         type="button"
                         onClick={() => handleRemoveSkill(skill)}
                         aria-label={`Remove skill ${skill}`}
+                        className="text-[var(--muted)] hover:text-[var(--danger)] transition-colors cursor-pointer"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Interactive Contact Inquiry Topics Editor */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label htmlFor="new-topic" className="text-xs font-medium text-[var(--muted)]">
+                  Contact Inquiry Topic Chips
+                </label>
+                <span className="text-[11px] font-mono text-[var(--muted)] tabular-nums">
+                  {(profileForm.inquiryTopics || []).length} / 10
+                </span>
+              </div>
+              <div className="flex gap-2 mb-3">
+                <input
+                  id="new-topic"
+                  type="text"
+                  maxLength={LIMITS.itemMaxLen}
+                  value={newTopicInput}
+                  onChange={(e) => setNewTopicInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleAddTopic();
+                    }
+                  }}
+                  placeholder="Add an inquiry chip (e.g., Full-Stack Web App) and press Enter"
+                  className={inputClass}
+                />
+                <button
+                  type="button"
+                  onClick={handleAddTopic}
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg border border-[var(--border-strong)] bg-[var(--surface-elevated)] text-sm font-medium text-[var(--text)] hover:border-[var(--accent)] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add
+                </button>
+              </div>
+              {(profileForm.inquiryTopics || []).length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {(profileForm.inquiryTopics || []).map((topic) => (
+                    <span
+                      key={topic}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--bg)] text-xs font-medium text-[var(--text)]"
+                    >
+                      {topic}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveTopic(topic)}
+                        aria-label={`Remove topic ${topic}`}
                         className="text-[var(--muted)] hover:text-[var(--danger)] transition-colors cursor-pointer"
                       >
                         <X className="w-3.5 h-3.5" />
