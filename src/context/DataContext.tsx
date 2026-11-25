@@ -390,6 +390,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         batch.delete(doc(db, 'projects', oldId));
       }
 
+      const existingProjectIds = new Set(remoteProjects.map((p) => p.id));
       for (const proj of DEFAULT_PROJECTS) {
         const payload = sanitizeProjectInput({
           title: proj.title,
@@ -401,13 +402,22 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
           githubUrl: proj.githubUrl,
           order: proj.order,
         });
-        batch.set(doc(db, 'projects', proj.id), {
-          ...payload,
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp(),
-        });
+        const projRef = doc(db, 'projects', proj.id);
+        if (existingProjectIds.has(proj.id)) {
+          batch.update(projRef, {
+            ...payload,
+            updatedAt: serverTimestamp(),
+          });
+        } else {
+          batch.set(projRef, {
+            ...payload,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+          });
+        }
       }
 
+      const existingPostIds = new Set(remotePosts.map((p) => p.id));
       for (const post of DEFAULT_POSTS) {
         const payload = sanitizePostInput({
           title: post.title,
@@ -419,11 +429,19 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
           tags: post.tags,
           status: post.status,
         });
-        batch.set(doc(db, 'posts', post.id), {
-          ...payload,
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp(),
-        });
+        const postRef = doc(db, 'posts', post.id);
+        if (existingPostIds.has(post.id)) {
+          batch.update(postRef, {
+            ...payload,
+            updatedAt: serverTimestamp(),
+          });
+        } else {
+          batch.set(postRef, {
+            ...payload,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+          });
+        }
       }
 
       await batch.commit();
