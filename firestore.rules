@@ -75,7 +75,8 @@ service cloud.firestore {
           'timelineEntries',
           'inquiryTopics',
           'footerWordmark',
-          'resumeUrl'
+          'resumeUrl',
+          'resumeLatex'
         ])
         && isValidBoundedString(data.fullName, 1, 120)
         && isValidBoundedString(data.tagline, 1, 160)
@@ -85,6 +86,7 @@ service cloud.firestore {
         && (!('heroEyebrow' in data) || isValidBoundedString(data.heroEyebrow, 0, 120))
         && (!('showHeroImage' in data) || data.showHeroImage is bool)
         && (!('resumeUrl' in data) || isValidBoundedString(data.resumeUrl, 0, 1000))
+        && (!('resumeLatex' in data) || isValidBoundedString(data.resumeLatex, 0, 30000))
         && isValidStringList(data.skills, 40)
         && isValidSocialLinks(data.socialLinks)
         && (!('aboutSubtitle' in data) || isValidBoundedString(data.aboutSubtitle, 0, 300))
@@ -201,6 +203,7 @@ service cloud.firestore {
           'heroEyebrow',
           'showHeroImage',
           'resumeUrl',
+          'resumeLatex',
           'skills',
           'socialLinks',
           'aboutSubtitle',

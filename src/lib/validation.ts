@@ -119,6 +119,7 @@ export function sanitizeProfileInput(input: SiteProfile) {
     heroEyebrow: clampString(input.heroEyebrow || '', 120),
     showHeroImage: input.showHeroImage !== false,
     resumeUrl: clampString(input.resumeUrl || '', LIMITS.url),
+    resumeLatex: clampString(input.resumeLatex || '', 30000),
     skills: sanitizeStringList(input.skills || [], LIMITS.skillsMax),
     socialLinks: {
       github: clampString(input.socialLinks?.github || '', LIMITS.socialUrl),

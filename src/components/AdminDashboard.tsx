@@ -3,8 +3,11 @@ import {
   ArrowDown,
   ArrowUp,
   Code2,
-  Database,
+  Copy,
+  ExternalLink,
   Eye,
+  FileCode2,
+  FileDown,
   FileText,
   FolderKanban,
   Heading2,
@@ -61,8 +64,6 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
     profile,
     projects,
     posts,
-    isSeededInFirestore,
-    seeding,
     saveProfile,
     createProject,
     updateProject,
@@ -71,7 +72,6 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
     createPost,
     updatePost,
     deletePost,
-    seedDefaultContent,
     signOutAdmin,
     addToast,
   } = useData();
@@ -334,16 +334,6 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
         <div className="flex flex-wrap items-center gap-2.5">
           <button
             type="button"
-            disabled={seeding}
-            onClick={() => void seedDefaultContent()}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-[var(--border-strong)] bg-[var(--surface)] text-xs font-medium text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50"
-            title="Syncs latest resume specifications, headshot, and verified projects to Firestore"
-          >
-            <Database className="w-3.5 h-3.5 text-[var(--accent)]" />
-            {seeding ? 'Syncing...' : 'Sync Resume Data to Firestore'}
-          </button>
-          <button
-            type="button"
             onClick={onExitAdmin}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-[var(--border-strong)] bg-[var(--surface)] text-xs font-medium text-[var(--text)] hover:border-[var(--accent)] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
           >
@@ -375,6 +365,7 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
             { id: 'profile', label: 'Edit Profile & Bio', icon: UserCircle2 },
             { id: 'projects', label: `Manage Projects (${projects.length})`, icon: FolderKanban },
             { id: 'posts', label: `Manage Blog Posts (${posts.length})`, icon: FileText },
+            { id: 'resume', label: 'Resume & LaTeX', icon: FileCode2 },
           ] as const
         ).map((tab) => {
           const Icon = tab.icon;
@@ -1705,6 +1696,132 @@ export function AdminDashboard({ onExitAdmin }: AdminDashboardProps) {
               </div>
             </form>
           </div>
+        </section>
+      )}
+
+      {/* TAB 4: Resume PDF Link & LaTeX Source Manager */}
+      {activeTab === 'resume' && (
+        <section className="mt-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h2 className="font-display text-xl font-semibold text-[var(--text)]">
+                Resume &amp; LaTeX Source
+              </h2>
+              <p className="text-xs text-[var(--muted)] mt-1">
+                Update the live Resume PDF link shown in your Navbar &amp; Hero, and store/edit your LaTeX (`.tex`) resume source code here.
+              </p>
+            </div>
+            <a
+              href={profileForm.resumeUrl || '/Abdullah_Bin_Rashid_Resume.pdf'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-[var(--border-strong)] bg-[var(--bg)] text-xs font-medium text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors whitespace-nowrap shrink-0"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-[var(--accent)]" />
+              Open Current Resume
+            </a>
+          </div>
+
+          <form onSubmit={handleProfileSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="resume-tab-url" className={labelClass}>
+                Live Resume PDF URL (Navbar &amp; Hero Download Link)
+              </label>
+              <input
+                id="resume-tab-url"
+                type="text"
+                maxLength={LIMITS.url}
+                value={profileForm.resumeUrl ?? ''}
+                onChange={(e) =>
+                  setProfileForm((p) => ({ ...p, resumeUrl: e.target.value }))
+                }
+                placeholder="/Abdullah_Bin_Rashid_Resume.pdf or https://drive.google.com/..."
+                className={inputClass}
+              />
+              <p className="text-[11px] text-[var(--muted)] mt-1.5">
+                Tip: After compiling your LaTeX code in Overleaf, paste the hosted PDF link (Google Drive, Dropbox, or GitHub raw/public PDF) here and click Save to update your site immediately.
+              </p>
+            </div>
+
+            <div>
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <label htmlFor="resume-latex-code" className="text-xs font-medium text-[var(--muted)]">
+                  LaTeX Resume Code (.tex source)
+                </label>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      const code = profileForm.resumeLatex || '';
+                      if (!code.trim()) {
+                        addToast('info', 'No LaTeX code to copy yet.');
+                        return;
+                      }
+                      try {
+                        await navigator.clipboard.writeText(code);
+                        addToast('success', 'LaTeX code copied to clipboard.');
+                      } catch {
+                        addToast('error', 'Could not copy to clipboard.');
+                      }
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--bg)] text-xs font-medium text-[var(--text)] hover:border-[var(--accent)] transition-colors cursor-pointer"
+                  >
+                    <Copy className="w-3.5 h-3.5 text-[var(--accent)]" />
+                    Copy LaTeX
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const code = profileForm.resumeLatex || '';
+                      if (!code.trim()) {
+                        addToast('info', 'Paste your LaTeX code first to download.');
+                        return;
+                      }
+                      const blob = new Blob([code], { type: 'application/x-tex;charset=utf-8' });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = 'Abdullah_Bin_Rashid_Resume.tex';
+                      a.click();
+                      URL.revokeObjectURL(url);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--bg)] text-xs font-medium text-[var(--text)] hover:border-[var(--accent)] transition-colors cursor-pointer"
+                  >
+                    <FileDown className="w-3.5 h-3.5 text-[var(--accent)]" />
+                    Download .tex
+                  </button>
+                </div>
+              </div>
+
+              <textarea
+                id="resume-latex-code"
+                rows={18}
+                maxLength={30000}
+                value={profileForm.resumeLatex ?? ''}
+                onChange={(e) =>
+                  setProfileForm((p) => ({ ...p, resumeLatex: e.target.value }))
+                }
+                placeholder={'\\documentclass[letterpaper,11pt]{article}\n% Paste your full LaTeX resume code here...'}
+                className={`${inputClass} font-mono text-xs leading-relaxed`}
+                spellCheck={false}
+              />
+              <div className="flex items-center justify-between mt-1.5 text-[11px] font-mono text-[var(--muted)] tabular-nums">
+                <span>Stored securely in Firestore</span>
+                <span>{(profileForm.resumeLatex || '').length} / 30000 chars</span>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-[var(--border)] flex justify-end">
+              <button
+                type="submit"
+                disabled={savingProfile}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-[var(--accent)] text-[var(--accent-fg)] hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-50"
+              >
+                <Save className="w-4 h-4" />
+                {savingProfile ? 'Saving...' : 'Save Resume & LaTeX'}
+              </button>
+            </div>
+          </form>
         </section>
       )}
     </main>

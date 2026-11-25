@@ -168,6 +168,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
           const rawResume = String(data.resumeUrl || '').trim();
           const resumeUrl =
             rawResume || DEFAULT_PROFILE.resumeUrl || '/Abdullah_Bin_Rashid_Resume.pdf';
+          const resumeLatex = String(data.resumeLatex || '');
 
           const rawBio = String(data.bio || '').trim();
           const isOutdatedSeedBio =
@@ -236,6 +237,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
             heroEyebrow,
             showHeroImage,
             resumeUrl,
+            resumeLatex,
             skills,
             socialLinks: {
               github,

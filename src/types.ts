@@ -2,7 +2,7 @@ export type ThemeId = 'charcoal' | 'forest';
 
 export type AppView = 'portfolio' | 'blog' | 'post-detail' | 'admin';
 
-export type AdminTab = 'profile' | 'projects' | 'posts';
+export type AdminTab = 'profile' | 'projects' | 'posts' | 'resume';
 
 export type ProjectCategory = 'Full-Stack' | 'Graphic Design' | 'Hybrid';
 
@@ -35,6 +35,7 @@ export interface SiteProfile {
   heroEyebrow?: string;
   showHeroImage?: boolean;
   resumeUrl?: string;
+  resumeLatex?: string;
   skills: string[];
   socialLinks: SocialLinks;
   aboutSubtitle?: string;
